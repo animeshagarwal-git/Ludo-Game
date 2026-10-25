@@ -215,8 +215,15 @@
       min-width: 0;
     }
 
+    .player-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+
     .player-name {
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       font-weight: 800;
       letter-spacing: 0.04em;
       text-transform: uppercase;
@@ -225,6 +232,38 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .role-tag {
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: rgba(148, 163, 184, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #cbd5e1;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .role-tag.ai-easy {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(52, 211, 153, 0.45);
+      color: #6ee7b7;
+    }
+
+    .role-tag.ai-medium {
+      background: rgba(59, 130, 246, 0.22);
+      border-color: rgba(96, 165, 250, 0.5);
+      color: #93c5fd;
+    }
+
+    .role-tag.ai-hard {
+      background: rgba(245, 158, 11, 0.22);
+      border-color: rgba(251, 191, 36, 0.55);
+      color: #fde68a;
     }
 
     .player-sub {
@@ -344,6 +383,14 @@
       cursor: default;
       opacity: 0.45;
       filter: saturate(0.65);
+    }
+
+    .dice-btn.ai-active {
+      opacity: 0.92;
+      filter: none;
+      border-color: var(--p-color);
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+      box-shadow: 0 6px 18px var(--p-soft), inset 0 1px 1px rgba(255, 255, 255, 0.15);
     }
 
     .dice-btn.ready-to-roll {
@@ -880,6 +927,29 @@
       transform: scale(0.92);
     }
 
+    /* Brief telegraph highlight when AI selects a token to move */
+    .token.ai-chosen {
+      z-index: 55 !important;
+    }
+
+    .token.ai-chosen::before {
+      content: "";
+      position: absolute;
+      inset: -28%;
+      border-radius: 50%;
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 18px 5px var(--t-glow);
+      pointer-events: none;
+    }
+
+    .token.ai-chosen .token-body {
+      transform: translateY(-10%) scale(1.16);
+      box-shadow:
+        0 0 0 3px #0f172a,
+        0 0 22px 6px var(--t-glow),
+        0 8px 16px rgba(0, 0, 0, 0.65);
+    }
+
     @keyframes tokenRadarRing {
       0% {
         transform: scale(0.82);
@@ -962,7 +1032,7 @@
       padding: 0;
       background: transparent;
       color: var(--text-main);
-      max-width: min(92vw, 660px);
+      max-width: min(92vw, 720px);
       width: 100%;
       overflow: auto;
     }
@@ -983,7 +1053,7 @@
       background: linear-gradient(160deg, #162036 0%, #0b101d 100%);
       border: 1.5px solid rgba(148, 163, 184, 0.22);
       border-radius: 28px;
-      padding: 32px 34px;
+      padding: 26px 30px;
       box-shadow:
         0 32px 80px rgba(0, 0, 0, 0.8),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -991,21 +1061,21 @@
     }
 
     .brand-emblem {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 14px;
+      width: 54px;
+      height: 54px;
+      margin: 0 auto 10px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      padding: 10px;
-      border-radius: 18px;
+      gap: 5px;
+      padding: 9px;
+      border-radius: 16px;
       background: rgba(15, 23, 42, 0.9);
       border: 1px solid rgba(255, 255, 255, 0.14);
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
     }
 
     .brand-emblem span {
-      border-radius: 6px;
+      border-radius: 5px;
     }
     .brand-emblem span:nth-child(1) { background: var(--red); }
     .brand-emblem span:nth-child(2) { background: var(--green); }
@@ -1014,7 +1084,7 @@
 
     .modal-title {
       margin: 0;
-      font-size: 2rem;
+      font-size: 1.85rem;
       font-weight: 900;
       letter-spacing: 0.04em;
       background: linear-gradient(135deg, #ffffff 20%, #cbd5e1 100%);
@@ -1023,84 +1093,219 @@
     }
 
     .modal-subtitle {
-      margin: 8px 0 26px;
-      font-size: 0.95rem;
+      margin: 6px 0 18px;
+      font-size: 0.88rem;
       color: var(--text-muted);
-      line-height: 1.45;
+      line-height: 1.4;
     }
 
-    .mode-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .mode-btn {
-      position: relative;
-      padding: 22px 14px;
-      border-radius: 20px;
-      border: 1.5px solid rgba(148, 163, 184, 0.22);
-      background: rgba(15, 23, 42, 0.72);
-      color: var(--text-main);
-      cursor: pointer;
+    /* Setup Top Controls: Player Count + Quick Presets */
+    .setup-toolbar {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .count-tabs,
+    .preset-tabs {
+      display: inline-flex;
+      background: rgba(7, 10, 18, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 14px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .count-tab,
+    .preset-tab {
+      min-height: 40px;
+      padding: 0 15px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
       touch-action: manipulation;
-      transition: transform 0.18s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease, transform 0.14s ease;
     }
 
-    .mode-btn:hover,
-    .mode-btn:focus-visible {
-      border-color: rgba(255, 255, 255, 0.55);
-      background: rgba(30, 41, 59, 0.9);
-      transform: translateY(-2px);
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
-      outline: none;
-    }
-
-    .mode-btn:active {
+    .count-tab:active,
+    .preset-tab:active {
       transform: scale(0.96);
     }
 
-    .mode-count {
-      font-size: 2.3rem;
-      font-weight: 900;
-      line-height: 1;
+    .count-tab.selected {
+      background: rgba(59, 130, 246, 0.24);
+      border-color: rgba(96, 165, 250, 0.6);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    .preset-tab.selected {
+      background: rgba(30, 41, 59, 0.95);
+      border-color: rgba(255, 255, 255, 0.28);
       color: #ffffff;
     }
 
-    .mode-label {
-      font-size: 0.92rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+    .mini-dots {
+      display: inline-flex;
+      gap: 3px;
     }
 
-    .mode-desc {
-      font-size: 0.74rem;
-      color: var(--text-muted);
-      font-weight: 500;
+    .mini-dots i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: block;
     }
 
-    .mode-dots {
+    /* Per-Seat Configuration List */
+    .seats-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      text-align: left;
+    }
+
+    .seat-row {
+      display: grid;
+      grid-template-columns: minmax(135px, 1.1fr) auto minmax(205px, 1.35fr);
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .seat-identity {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .seat-dot {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      flex-shrink: 0;
+    }
+
+    .seat-label-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .seat-color-name {
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .seat-corner-hint {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-dim);
       margin-top: 2px;
     }
 
-    .mode-dots i {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      display: block;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    .seg-group {
+      display: inline-flex;
+      background: rgba(7, 10, 18, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 11px;
+      padding: 3px;
+      gap: 3px;
+      justify-self: center;
+    }
+
+    .seg-btn {
+      min-height: 36px;
+      padding: 0 12px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+    }
+
+    .seg-btn.active {
+      background: rgba(51, 65, 85, 0.95);
+      border-color: rgba(255, 255, 255, 0.32);
+      color: #ffffff;
+    }
+
+    .seg-btn.diff-easy.active {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: rgba(52, 211, 153, 0.6);
+      color: #a7f3d0;
+    }
+
+    .seg-btn.diff-medium.active {
+      background: rgba(59, 130, 246, 0.28);
+      border-color: rgba(96, 165, 250, 0.65);
+      color: #bfdbfe;
+    }
+
+    .seg-btn.diff-hard.active {
+      background: rgba(245, 158, 11, 0.28);
+      border-color: rgba(251, 191, 36, 0.68);
+      color: #fde68a;
+    }
+
+    .seat-right-slot {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .human-ready-pill {
+      min-height: 42px;
+      padding: 0 14px;
+      border-radius: 11px;
+      border: 1px dashed rgba(148, 163, 184, 0.22);
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .setup-footnote {
+      margin-top: 10px;
+      font-size: 0.73rem;
+      color: var(--text-dim);
+      min-height: 18px;
     }
 
     .modal-footer-row {
-      margin-top: 22px;
+      margin-top: 16px;
       display: flex;
       justify-content: center;
       gap: 12px;
@@ -1184,7 +1389,10 @@
           <div class="player-id-group">
             <span class="player-orb"></span>
             <div class="player-name-wrap">
-              <span class="player-name">Red</span>
+              <div class="player-name-row">
+                <span class="player-name">Red</span>
+                <span class="role-tag" id="role-red">Human</span>
+              </div>
               <span class="player-sub" id="sub-red">Command I</span>
             </div>
           </div>
@@ -1231,7 +1439,10 @@
           <div class="player-id-group">
             <span class="player-orb"></span>
             <div class="player-name-wrap">
-              <span class="player-name">Blue</span>
+              <div class="player-name-row">
+                <span class="player-name">Blue</span>
+                <span class="role-tag" id="role-blue">Human</span>
+              </div>
               <span class="player-sub" id="sub-blue">Command IV</span>
             </div>
           </div>
@@ -1321,7 +1532,10 @@
           <div class="player-id-group">
             <span class="player-orb"></span>
             <div class="player-name-wrap">
-              <span class="player-name">Green</span>
+              <div class="player-name-row">
+                <span class="player-name">Green</span>
+                <span class="role-tag" id="role-green">Human</span>
+              </div>
               <span class="player-sub" id="sub-green">Command II</span>
             </div>
           </div>
@@ -1368,7 +1582,10 @@
           <div class="player-id-group">
             <span class="player-orb"></span>
             <div class="player-name-wrap">
-              <span class="player-name">Yellow</span>
+              <div class="player-name-row">
+                <span class="player-name">Yellow</span>
+                <span class="role-tag" id="role-yellow">Human</span>
+              </div>
               <span class="player-sub" id="sub-yellow">Command III</span>
             </div>
           </div>
@@ -1412,52 +1629,43 @@
     </aside>
   </div>
 
-  <!-- IMMERSIVE SETUP MODAL -->
+  <!-- IMMERSIVE SETUP MODAL (v2: Human & Computer Players) -->
   <dialog id="setup-modal" aria-labelledby="setup-title">
     <div class="modal-card">
       <div class="brand-emblem" aria-hidden="true">
         <span></span><span></span><span></span><span></span>
       </div>
-      <h1 class="modal-title" id="setup-title">CLASSIC LUDO <span style="font-size:0.85rem;font-weight:700;vertical-align:middle;padding:3px 9px;border-radius:999px;background:rgba(59,130,246,0.22);border:1px solid rgba(96,165,250,0.45);-webkit-text-fill-color:#bfdbfe;letter-spacing:0.05em;">v1.1</span></h1>
-      <p class="modal-subtitle">Select player count to configure command stations.<br />Banked 6s · 3-Six Bust · Full-Bank FIFO Enforcement</p>
+      <h1 class="modal-title" id="setup-title">CLASSIC LUDO <span style="font-size:0.85rem;font-weight:700;vertical-align:middle;padding:3px 9px;border-radius:999px;background:rgba(59,130,246,0.22);border:1px solid rgba(96,165,250,0.45);-webkit-text-fill-color:#bfdbfe;letter-spacing:0.05em;">v2</span></h1>
+      <p class="modal-subtitle">Choose 2, 3, or 4 players and configure each station as Human or Computer AI.</p>
 
-      <div class="mode-grid">
-        <button type="button" class="mode-btn" data-count="2">
-          <span class="mode-count">2</span>
-          <span class="mode-label">Players</span>
-          <span class="mode-desc">Diagonal Duel</span>
-          <div class="mode-dots">
-            <i style="background: var(--red)"></i>
-            <i style="background: var(--yellow)"></i>
-          </div>
-        </button>
+      <div class="setup-toolbar">
+        <div class="count-tabs" role="group" aria-label="Player Count">
+          <button type="button" class="count-tab selected" data-count="2">
+            <span>2 Players</span>
+            <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--yellow)"></i></span>
+          </button>
+          <button type="button" class="count-tab" data-count="3">
+            <span>3 Players</span>
+            <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--green)"></i><i style="background:var(--yellow)"></i></span>
+          </button>
+          <button type="button" class="count-tab" data-count="4">
+            <span>4 Players</span>
+            <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--green)"></i><i style="background:var(--yellow)"></i><i style="background:var(--blue)"></i></span>
+          </button>
+        </div>
 
-        <button type="button" class="mode-btn" data-count="3">
-          <span class="mode-count">3</span>
-          <span class="mode-label">Players</span>
-          <span class="mode-desc">Three-Corner Clash</span>
-          <div class="mode-dots">
-            <i style="background: var(--red)"></i>
-            <i style="background: var(--green)"></i>
-            <i style="background: var(--yellow)"></i>
-          </div>
-        </button>
-
-        <button type="button" class="mode-btn" data-count="4">
-          <span class="mode-count">4</span>
-          <span class="mode-label">Players</span>
-          <span class="mode-desc">Full Arena Battle</span>
-          <div class="mode-dots">
-            <i style="background: var(--red)"></i>
-            <i style="background: var(--green)"></i>
-            <i style="background: var(--yellow)"></i>
-            <i style="background: var(--blue)"></i>
-          </div>
-        </button>
+        <div class="preset-tabs" role="group" aria-label="Opponent Presets">
+          <button type="button" class="preset-tab selected" id="preset-vs-ai">Human + AI</button>
+          <button type="button" class="preset-tab" id="preset-all-human">All Human</button>
+        </div>
       </div>
 
-      <div class="modal-footer-row hidden" id="setup-cancel-row">
-        <button type="button" class="secondary-btn" id="btn-resume-game">Resume Current Match</button>
+      <div class="seats-list" id="setup-seats-list"></div>
+      <div class="setup-footnote" id="setup-footnote">At least 1 station is always Human-controlled.</div>
+
+      <div class="modal-footer-row">
+        <button type="button" class="secondary-btn hidden" id="btn-resume-game">Resume Match</button>
+        <button type="button" class="primary-btn" id="btn-start-match">Start Match</button>
       </div>
     </div>
   </dialog>
@@ -1805,13 +2013,36 @@
       /* =====================================================================
        * 4. GAME STATE & UTILITY HELPERS
        * ===================================================================== */
+      const STATION_HINTS = {
+        red: 'Top-Left Station',
+        green: 'Top-Right Station',
+        yellow: 'Bottom-Right Station',
+        blue: 'Bottom-Left Station'
+      };
+
+      const setupDraft = {
+        playerCount: 2,
+        seats: {
+          red:    { type: 'human', difficulty: 'medium' },
+          green:  { type: 'ai',    difficulty: 'medium' },
+          yellow: { type: 'ai',    difficulty: 'medium' },
+          blue:   { type: 'ai',    difficulty: 'medium' }
+        }
+      };
+
       const state = {
         started: false,
         matchGen: 0,
         activePlayers: ['red', 'yellow'],
+        playerConfigs: {
+          red:    { type: 'human', difficulty: 'medium' },
+          green:  { type: 'ai',    difficulty: 'medium' },
+          yellow: { type: 'ai',    difficulty: 'medium' },
+          blue:   { type: 'ai',    difficulty: 'medium' }
+        },
         finishedRankings: [],
         turnIndex: 0,
-        phase: 'IDLE', // 'ROLLING' | 'MOVING' | 'AWAITING_TOKEN' | 'GAME_OVER'
+        phase: 'IDLE', // 'ROLLING' | 'MOVING' | 'AWAITING_TOKEN' | 'AI_THINKING' | 'GAME_OVER'
         busy: false,
         consecutiveSixes: 0,
         bonusRolls: 0,
@@ -1826,6 +2057,16 @@
 
       function sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      function isAIPlayer(pid) {
+        const cfg = state.playerConfigs[pid];
+        return Boolean(cfg && cfg.type === 'ai');
+      }
+
+      function getPlayerDifficulty(pid) {
+        const cfg = state.playerConfigs[pid];
+        return (cfg && cfg.difficulty) || 'medium';
       }
 
       function secureDieRoll() {
@@ -1899,6 +2140,356 @@
       }
 
       /* =====================================================================
+       * 4B. 3-TIER AI STRATEGY ENGINE (EASY / MEDIUM / HARD)
+       * ===================================================================== */
+      function enumerateLegalPlans(positions, rolls, rollIdx = 0, prefix = [], out = []) {
+        if (rollIdx >= rolls.length) {
+          out.push(prefix);
+          return out;
+        }
+        const roll = rolls[rollIdx];
+        for (let i = 0; i < 4; i++) {
+          const np = nextPosAfterRoll(positions[i], roll);
+          if (np !== -1) {
+            const nextArr = positions.slice();
+            nextArr[i] = np;
+            enumerateLegalPlans(nextArr, rolls, rollIdx + 1, prefix.concat(i), out);
+          }
+        }
+        return out;
+      }
+
+      // Estimates probability (0..0.85) that an opponent captures a token sitting
+      // on outerIdx on their upcoming turn (accounts for 1..6 rolls, [6,d] snipes,
+      // and [6,d] base-spawn ambushes near enemy start squares).
+      function computeOuterSquareThreat(pid, outerIdx, simPositions) {
+        if (outerIdx < 0 || SAFE_INDICES.has(outerIdx)) return 0;
+
+        let threatProb = 0;
+        for (let p = 0; p < state.activePlayers.length; p++) {
+          const oppPid = state.activePlayers[p];
+          if (oppPid === pid) continue;
+
+          const oppArr = simPositions[oppPid];
+          let oppBaseCount = 0;
+
+          for (let j = 0; j < 4; j++) {
+            const op = oppArr[j];
+            if (op === 0) {
+              oppBaseCount += 1;
+              continue;
+            }
+            if (op >= 1 && op <= 51) {
+              const oppOuter = outerIndexForPos(oppPid, op);
+              const dist = (outerIdx - oppOuter + 52) % 52;
+              // Opponent can only reach outerIdx if dist steps doesn't turn into their home stretch
+              if (dist >= 1 && op + dist <= 51) {
+                if (dist <= 6) {
+                  threatProb += 1 / 6;
+                } else if (dist <= 11) {
+                  threatProb += 1 / 36;
+                } else if (dist >= 13 && dist <= 17) {
+                  threatProb += 1 / 216;
+                }
+              }
+            }
+          }
+
+          // Enemy base spawn-and-snipe threat ([6, 1..5] from their start square)
+          if (oppBaseCount > 0) {
+            const distFromStart = (outerIdx - PLAYER_DEFS[oppPid].startIndex + 52) % 52;
+            if (distFromStart >= 1 && distFromStart <= 5) {
+              threatProb += 0.65 / 36;
+            }
+          }
+        }
+
+        return Math.min(0.85, threatProb);
+      }
+
+      function computeTeamExposureCost(pid, simPositions) {
+        const myArr = simPositions[pid];
+        let totalRisk = 0;
+        const outerCounts = new Map();
+
+        for (let i = 0; i < 4; i++) {
+          const pos = myArr[i];
+          if (pos >= 1 && pos <= 51) {
+            const oIdx = outerIndexForPos(pid, pos);
+            const prob = computeOuterSquareThreat(pid, oIdx, simPositions);
+            // Weight danger heavily by how much progress (pos) would be lost if captured
+            totalRisk += prob * (22 + pos * 1.85);
+            if (!SAFE_INDICES.has(oIdx)) {
+              outerCounts.set(oIdx, (outerCounts.get(oIdx) || 0) + 1);
+            }
+          }
+        }
+
+        // Extra penalty for stacking multiple friendly pawns on the same unprotected square
+        outerCounts.forEach((count, oIdx) => {
+          if (count > 1) {
+            const prob = computeOuterSquareThreat(pid, oIdx, simPositions);
+            totalRisk += (count - 1) * prob * 38;
+          }
+        });
+
+        return totalRisk;
+      }
+
+      function cloneAllPositions() {
+        const snap = {};
+        state.activePlayers.forEach((p) => {
+          snap[p] = getPlayerTokens(p).map((t) => t.pos);
+        });
+        return snap;
+      }
+
+      // EASY AI ("The Impulsive Rookie"):
+      // Tunnel-visions on pushing its furthest-ahead piece, ignores enemy danger behind it,
+      // frequently overlooks tactical captures/safe zones, and plays with high variance.
+      function chooseMoveEasy(pid, validTokens, currentRoll) {
+        const snap = cloneAllPositions();
+        let bestToken = validTokens[0];
+        let bestScore = -Infinity;
+
+        validTokens.forEach((token) => {
+          const prev = token.pos;
+          const next = nextPosAfterRoll(prev, currentRoll);
+          let score = Math.random() * 58; // High rookie randomness
+
+          // Loves running whichever token is already furthest along
+          score += prev * 0.95;
+
+          // Reluctant to deploy extra tokens if one is already running
+          const activeCount = snap[pid].filter((p) => p > 0 && p < 57).length;
+          if (prev === 0) {
+            score += activeCount === 0 ? 40 : -14;
+          }
+
+          // Notices immediate home goal or capture only ~40% of the time
+          if (next === 57 && Math.random() < 0.42) {
+            score += 48;
+          }
+          if (next >= 1 && next <= 51 && Math.random() < 0.38) {
+            const oIdx = outerIndexForPos(pid, next);
+            if (!SAFE_INDICES.has(oIdx)) {
+              const hitsEnemy = state.activePlayers.some((other) => (
+                other !== pid && snap[other].some((op) => op >= 1 && op <= 51 && outerIndexForPos(other, op) === oIdx)
+              ));
+              if (hitsEnemy) score += 45;
+            }
+          }
+
+          if (score > bestScore) {
+            bestScore = score;
+            bestToken = token;
+          }
+        });
+
+        return bestToken;
+      }
+
+      // MEDIUM AI ("The Club Tactician"):
+      // Solid 1-step fundamentals: takes immediate captures & home goals, deploys from base,
+      // values safe stars, and checks immediate 1-die threats, without multi-roll combo lookahead.
+      function chooseMoveMedium(pid, validTokens, currentRoll) {
+        const snap = cloneAllPositions();
+        const activeCount = snap[pid].filter((p) => p > 0 && p < 57).length;
+        let bestToken = validTokens[0];
+        let bestScore = -Infinity;
+
+        validTokens.forEach((token) => {
+          const prev = token.pos;
+          const next = nextPosAfterRoll(prev, currentRoll);
+          let score = Math.random() * 9;
+
+          if (next === 57) score += 115;
+          if (prev === 0 && next === 1) {
+            score += activeCount < 2 ? 74 : 44;
+          }
+          if (prev <= 51 && next >= 52 && next <= 56) {
+            score += 62;
+          }
+
+          if (prev >= 1 && prev <= 51) {
+            const prevOuter = outerIndexForPos(pid, prev);
+            if (SAFE_INDICES.has(prevOuter)) {
+              score -= 16;
+            } else {
+              // Mild incentive to step away if an enemy is right behind us
+              score += computeOuterSquareThreat(pid, prevOuter, snap) * 28;
+            }
+          }
+
+          if (next >= 1 && next <= 51) {
+            const oIdx = outerIndexForPos(pid, next);
+            if (SAFE_INDICES.has(oIdx)) {
+              score += 32;
+            } else {
+              // Check immediate capture
+              state.activePlayers.forEach((other) => {
+                if (other === pid) return;
+                snap[other].forEach((op) => {
+                  if (op >= 1 && op <= 51 && outerIndexForPos(other, op) === oIdx) {
+                    score += 102;
+                  }
+                });
+              });
+
+              // Basic 1-die threat check
+              const threat = computeOuterSquareThreat(pid, oIdx, snap);
+              score -= threat * 58;
+            }
+          }
+
+          score += prev * 0.35;
+
+          if (score > bestScore) {
+            bestScore = score;
+            bestToken = token;
+          }
+        });
+
+        return bestToken;
+      }
+
+      // HARD AI ("The Grandmaster Strategist"):
+      // Simulates every legal full-bank sequence jointly across the entire turn, discovering
+      // multi-die [6, d] / [6, 6, d] combo snipes, double-bonus chains, rescues (risk delta),
+      // progress-weighted danger avoidance, safe-star anchoring, and stalking pressure.
+      function chooseMoveHard(pid, validTokens, cursor) {
+        const tokens = getPlayerTokens(pid);
+        const remainingRolls = state.bank.slice(cursor).map((b) => b.value);
+        const initialSnap = cloneAllPositions();
+        const riskBefore = computeTeamExposureCost(pid, initialSnap);
+        const initialActive = initialSnap[pid].filter((p) => p > 0 && p < 57).length;
+
+        const validIndices = new Set(validTokens.map((t) => t.index));
+        const allPlans = enumerateLegalPlans(initialSnap[pid], remainingRolls).filter((plan) => (
+          plan.length > 0 && validIndices.has(plan[0])
+        ));
+
+        if (allPlans.length === 0) return validTokens[0];
+
+        let bestFirstIdx = allPlans[0][0];
+        let bestScore = -Infinity;
+
+        allPlans.forEach((plan) => {
+          // Deep-clone positions for full-sequence simulation
+          const sim = {};
+          state.activePlayers.forEach((p) => { sim[p] = initialSnap[p].slice(); });
+
+          let captures = 0;
+          let capturedProgress = 0;
+          let goalsScored = 0;
+          let baseExits = 0;
+          let homeEntries = 0;
+
+          for (let s = 0; s < plan.length; s++) {
+            const tIdx = plan[s];
+            const rVal = remainingRolls[s];
+            const prev = sim[pid][tIdx];
+            const next = nextPosAfterRoll(prev, rVal);
+            sim[pid][tIdx] = next;
+
+            if (prev === 0 && next === 1) baseExits += 1;
+            if (prev <= 51 && next >= 52 && next <= 56) homeEntries += 1;
+            if (next === 57) goalsScored += 1;
+
+            if (next >= 1 && next <= 51) {
+              const landedIdx = outerIndexForPos(pid, next);
+              if (!SAFE_INDICES.has(landedIdx)) {
+                state.activePlayers.forEach((other) => {
+                  if (other === pid) return;
+                  for (let j = 0; j < 4; j++) {
+                    const op = sim[other][j];
+                    if (op >= 1 && op <= 51 && outerIndexForPos(other, op) === landedIdx) {
+                      captures += 1;
+                      capturedProgress += op;
+                      sim[other][j] = 0; // Knocked back to base in simulation
+                    }
+                  }
+                });
+              }
+            }
+          }
+
+          let score = 0;
+
+          // 1. Instant Match Victory
+          if (sim[pid].every((p) => p === 57)) {
+            score += 100000;
+          }
+
+          // 2. Tactical Events (Captures weighted by enemy progress destroyed + Bonus rolls)
+          score += captures * 148 + capturedProgress * 1.8;
+          score += goalsScored * 132;
+          score += homeEntries * 76;
+
+          if (baseExits > 0) {
+            const exitWeight = initialActive === 0 ? 88 : initialActive === 1 ? 72 : initialActive === 2 ? 48 : 26;
+            score += baseExits * exitWeight;
+          }
+
+          // 3. Net Exposure Risk Delta (rewards evacuating endangered high-value pawns)
+          const riskAfter = computeTeamExposureCost(pid, sim);
+          score += (riskBefore - riskAfter) * 1.45;
+
+          // 4. Post-Sequence Positional Quality, Safe Stars & Stalking Pressure
+          for (let i = 0; i < 4; i++) {
+            const pos = sim[pid][i];
+            score += pos * 0.9 + pos * pos * 0.014;
+
+            if (pos >= 1 && pos <= 51) {
+              const myOuter = outerIndexForPos(pid, pos);
+              if (SAFE_INDICES.has(myOuter)) {
+                score += pos >= 20 ? 30 : 21;
+              }
+
+              // Stalking bonus: sitting 1..6 squares behind an unprotected enemy pawn
+              const mySquareDanger = computeOuterSquareThreat(pid, myOuter, sim);
+              if (mySquareDanger <= 1 / 6) {
+                state.activePlayers.forEach((other) => {
+                  if (other === pid) return;
+                  for (let j = 0; j < 4; j++) {
+                    const op = sim[other][j];
+                    if (op >= 1 && op <= 51) {
+                      const oppOuter = outerIndexForPos(other, op);
+                      if (!SAFE_INDICES.has(oppOuter)) {
+                        const chaseDist = (oppOuter - myOuter + 52) % 52;
+                        if (chaseDist >= 1 && chaseDist <= 6 && pos + chaseDist <= 51) {
+                          score += 12 + op * 0.25;
+                        }
+                      }
+                    }
+                  }
+                });
+              }
+            }
+          }
+
+          // Micro tie-breaker
+          score += Math.random() * 0.4;
+
+          if (score > bestScore) {
+            bestScore = score;
+            bestFirstIdx = plan[0];
+          }
+        });
+
+        return tokens[bestFirstIdx];
+      }
+
+      function chooseAIMove(pid, validTokens, cursor) {
+        if (validTokens.length <= 1) return validTokens[0];
+        const diff = getPlayerDifficulty(pid);
+        const currentRoll = state.bank[cursor].value;
+        if (diff === 'easy') return chooseMoveEasy(pid, validTokens, currentRoll);
+        if (diff === 'medium') return chooseMoveMedium(pid, validTokens, currentRoll);
+        return chooseMoveHard(pid, validTokens, cursor);
+      }
+
+      /* =====================================================================
        * 5. TOKEN COORDINATES & CIRCULAR OVERLAP LAYOUT
        * ===================================================================== */
       function getTokenCellDescriptor(token) {
@@ -1948,6 +2539,10 @@
 
       function renderTokens() {
         const groups = new Map();
+        const activePid = state.started ? currentPlayerId() : null;
+        const isHumanSelecting = Boolean(
+          activePid && !isAIPlayer(activePid) && state.phase === 'AWAITING_TOKEN'
+        );
 
         state.activePlayers.forEach((pid) => {
           getPlayerTokens(pid).forEach((t) => {
@@ -1997,7 +2592,7 @@
             token.el.style.top = `${topPct.toFixed(3)}%`;
             token.el.style.setProperty('--t-scale', scale.toFixed(3));
 
-            const isSelectable = state.phase === 'AWAITING_TOKEN' && state.validTokenUids.has(token.uid);
+            const isSelectable = isHumanSelecting && state.validTokenUids.has(token.uid);
             token.el.classList.toggle('selectable', isSelectable);
             token.el.classList.toggle('moving', Boolean(token.isMoving));
             token.el.disabled = !isSelectable;
@@ -2058,21 +2653,32 @@
         const bannerText = document.getElementById('banner-text');
         if (activePid) {
           const pDef = PLAYER_DEFS[activePid];
+          const activeIsAI = isAIPlayer(activePid);
+          const aiTag = activeIsAI ? ` (${getPlayerDifficulty(activePid).toUpperCase()} AI)` : '';
           bannerDot.style.background = pDef.hex;
           bannerDot.style.boxShadow = `0 0 10px ${pDef.hex}`;
 
           if (state.phase === 'ROLLING') {
-            bannerText.textContent = state.consecutiveSixes > 0
-              ? `${pDef.name}: 6 banked (${state.consecutiveSixes}/2) — Roll again!`
-              : `${pDef.name}'s Turn — Tap Dice to Roll`;
+            if (activeIsAI) {
+              bannerText.textContent = state.consecutiveSixes > 0
+                ? `${pDef.name}${aiTag}: 6 banked (${state.consecutiveSixes}/2) — Rolling again...`
+                : `${pDef.name}${aiTag} — Rolling dice...`;
+            } else {
+              bannerText.textContent = state.consecutiveSixes > 0
+                ? `${pDef.name}: 6 banked (${state.consecutiveSixes}/2) — Roll again!`
+                : `${pDef.name}'s Turn — Tap Dice to Roll`;
+            }
+          } else if (state.phase === 'AI_THINKING') {
+            const cur = state.bank[state.bankCursor];
+            bannerText.textContent = `${pDef.name}${aiTag}: Evaluating move for [${cur ? cur.value : ''}]...`;
           } else if (state.phase === 'AWAITING_TOKEN') {
             const cur = state.bank[state.bankCursor];
             bannerText.textContent = `${pDef.name}: Tap a glowing token to play [${cur ? cur.value : ''}]`;
           } else if (state.phase === 'MOVING') {
             const cur = state.bank[state.bankCursor];
             bannerText.textContent = cur
-              ? `${pDef.name}: Playing banked roll [${cur.value}]`
-              : `${pDef.name}: Resolving turn...`;
+              ? `${pDef.name}${aiTag}: Playing banked roll [${cur.value}]`
+              : `${pDef.name}${aiTag}: Resolving turn...`;
           } else if (state.phase === 'GAME_OVER') {
             bannerText.textContent = 'Match Complete';
           }
@@ -2088,6 +2694,20 @@
           if (svgBase) svgBase.style.opacity = isParticipant ? '1' : '0.42';
 
           if (!isParticipant) return;
+
+          const pidIsAI = isAIPlayer(pid);
+          const diff = getPlayerDifficulty(pid);
+          const roleEl = document.getElementById(`role-${pid}`);
+          if (roleEl) {
+            roleEl.className = 'role-tag';
+            if (pidIsAI) {
+              const diffShort = diff === 'easy' ? 'EASY' : diff === 'medium' ? 'MED' : 'HARD';
+              roleEl.textContent = `CPU · ${diffShort}`;
+              roleEl.classList.add(`ai-${diff}`);
+            } else {
+              roleEl.textContent = 'HUMAN';
+            }
+          }
 
           const isTurn = pid === activePid && state.phase !== 'GAME_OVER';
           card.classList.toggle('active-turn', isTurn);
@@ -2133,8 +2753,10 @@
               } else if (state.consecutiveSixes === 1) {
                 phaseEl.textContent = '6 Banked · Extra Roll';
               } else {
-                phaseEl.textContent = 'Rolling Phase';
+                phaseEl.textContent = pidIsAI ? 'CPU Rolling...' : 'Rolling Phase';
               }
+            } else if (state.phase === 'AI_THINKING') {
+              phaseEl.textContent = 'Thinking...';
             } else if (state.phase === 'AWAITING_TOKEN') {
               phaseEl.textContent = 'Select Token';
             } else if (state.phase === 'MOVING') {
@@ -2142,17 +2764,32 @@
             }
           }
 
-          // Dice button state
+          // Dice button state (interactive for Human, status display for AI)
           const diceBtn = document.getElementById(`dice-btn-${pid}`);
           const ctaMain = document.getElementById(`cta-main-${pid}`);
           const ctaSub = document.getElementById(`cta-sub-${pid}`);
-          const canRollNow = isTurn && state.phase === 'ROLLING' && !state.busy;
+          const canHumanRollNow = isTurn && !pidIsAI && state.phase === 'ROLLING' && !state.busy;
 
-          diceBtn.disabled = !canRollNow;
-          diceBtn.classList.toggle('ready-to-roll', canRollNow);
+          diceBtn.disabled = !canHumanRollNow;
+          diceBtn.classList.toggle('ready-to-roll', canHumanRollNow);
+          diceBtn.classList.toggle('ai-active', isTurn && pidIsAI);
 
           if (isTurn) {
-            if (state.phase === 'ROLLING') {
+            if (pidIsAI) {
+              if (state.phase === 'ROLLING') {
+                ctaMain.textContent = state.consecutiveSixes > 0 ? 'Rolling Again...' : 'CPU Rolling...';
+                ctaSub.textContent = state.consecutiveSixes > 0
+                  ? `${state.consecutiveSixes} banked in tray`
+                  : `${diff.toUpperCase()} AI turn`;
+              } else if (state.phase === 'AI_THINKING') {
+                const cur = state.bank[state.bankCursor];
+                ctaMain.textContent = `Thinking [${cur ? cur.value : ''}]`;
+                ctaSub.textContent = `${diff.toUpperCase()} AI evaluating`;
+              } else {
+                ctaMain.textContent = 'Moving...';
+                ctaSub.textContent = 'FIFO sequence';
+              }
+            } else if (state.phase === 'ROLLING') {
               ctaMain.textContent = state.consecutiveSixes > 0 ? 'Roll Again!' : 'Tap to Roll';
               ctaSub.textContent = state.consecutiveSixes > 0
                 ? `${state.consecutiveSixes} banked in tray`
@@ -2166,7 +2803,7 @@
               ctaSub.textContent = 'FIFO sequence';
             }
           } else {
-            ctaMain.textContent = rankIdx !== -1 ? 'Complete' : 'Roll Dice';
+            ctaMain.textContent = rankIdx !== -1 ? 'Complete' : (pidIsAI ? 'CPU Standby' : 'Roll Dice');
             ctaSub.textContent = rankIdx !== -1 ? 'All home' : 'Waiting turn';
           }
 
@@ -2189,12 +2826,54 @@
       }
 
       /* =====================================================================
-       * 7. TURN, DICE BANKING, 3-SIX BUST & STRICT FIFO ENGINE
+       * 7. TURN, DICE BANKING, 3-SIX BUST, STRICT FIFO & AI AUTOMATION ENGINE
        * ===================================================================== */
-      function initMatch(playerCount) {
+      const pauseWaiters = [];
+
+      function notifySetupClosed() {
+        while (pauseWaiters.length > 0) {
+          const resolve = pauseWaiters.shift();
+          resolve();
+        }
+      }
+
+      async function waitWhilePaused(gen) {
+        const modal = document.getElementById('setup-modal');
+        while (modal && modal.open && gen === state.matchGen) {
+          await new Promise((resolve) => {
+            pauseWaiters.push(resolve);
+          });
+        }
+      }
+
+      async function scheduleAIRoll(gen, delayMs = 480) {
+        await sleep(delayMs);
+        if (gen !== state.matchGen) return;
+        await waitWhilePaused(gen);
+        if (gen !== state.matchGen) return;
+
+        const pid = currentPlayerId();
+        if (!state.started || !isAIPlayer(pid) || state.phase !== 'ROLLING' || state.busy) return;
+        await executeDiceRoll(pid);
+      }
+
+      function initMatch(playerCount, seatConfigs = null) {
         state.matchGen += 1;
+        notifySetupClosed();
         state.started = true;
         state.activePlayers = [...MODE_ROSTERS[playerCount]];
+
+        if (seatConfigs) {
+          ALL_COLORS.forEach((pid) => {
+            if (seatConfigs[pid]) {
+              state.playerConfigs[pid] = {
+                type: seatConfigs[pid].type === 'ai' ? 'ai' : 'human',
+                difficulty: seatConfigs[pid].difficulty || 'medium'
+              };
+            }
+          });
+        }
+
         state.finishedRankings = [];
         state.turnIndex = 0;
         state.phase = 'ROLLING';
@@ -2213,6 +2892,8 @@
         ALL_COLORS.forEach((pid) => {
           const dieFace = document.getElementById(`die-face-${pid}`);
           if (dieFace) dieFace.dataset.val = '6';
+          const diceBtn = document.getElementById(`dice-btn-${pid}`);
+          if (diceBtn) diceBtn.classList.remove('rolling');
         });
 
         state.activePlayers.forEach((pid) => {
@@ -2241,10 +2922,23 @@
 
         renderTokens();
         renderHUDs();
-        showToast(`${PLAYER_DEFS[currentPlayerId()].name} Starts!`, 'normal', 950);
+
+        const starter = currentPlayerId();
+        showToast(`${PLAYER_DEFS[starter].name} Starts!`, 'normal', 950);
+
+        if (isAIPlayer(starter)) {
+          scheduleAIRoll(state.matchGen, 560);
+        }
       }
 
       async function handleDiceTap(pid) {
+        if (!state.started || state.busy) return;
+        if (isAIPlayer(pid)) return;
+        if (pid !== currentPlayerId() || state.phase !== 'ROLLING') return;
+        await executeDiceRoll(pid);
+      }
+
+      async function executeDiceRoll(pid) {
         if (!state.started || state.busy) return;
         if (pid !== currentPlayerId() || state.phase !== 'ROLLING') return;
 
@@ -2292,6 +2986,9 @@
           Sfx.rollSix();
           state.busy = false;
           renderHUDs();
+          if (isAIPlayer(pid)) {
+            scheduleAIRoll(gen, 440);
+          }
           return;
         }
 
@@ -2309,6 +3006,8 @@
 
       async function processNextBankedRoll(gen) {
         if (gen !== state.matchGen) return;
+        await waitWhilePaused(gen);
+        if (gen !== state.matchGen) return;
 
         const pid = currentPlayerId();
 
@@ -2324,6 +3023,9 @@
             state.busy = false;
             renderHUDs();
             showToast(`${PLAYER_DEFS[pid].name} Bonus Roll!`, 'bonus', 1000);
+            if (isAIPlayer(pid)) {
+              scheduleAIRoll(gen, 520);
+            }
             return;
           }
 
@@ -2367,17 +3069,47 @@
         // AUTO-PLAY RULE:
         // If only ONE mathematically valid token can move for the current roll, move it automatically!
         if (validTokens.length === 1) {
+          const soleToken = validTokens[0];
           state.phase = 'MOVING';
           state.validTokenUids.clear();
           renderTokens();
           renderHUDs();
+          if (isAIPlayer(pid)) {
+            soleToken.el.classList.add('ai-chosen');
+          }
           await sleep(240);
+          soleToken.el.classList.remove('ai-chosen');
           if (gen !== state.matchGen) return;
-          await executeTokenMove(validTokens[0], currentRollObj, gen);
+          await executeTokenMove(soleToken, currentRollObj, gen);
           return;
         }
 
-        // MULTIPLE VALID TOKENS:
+        // MULTIPLE VALID TOKENS — AI DECISION BRANCH:
+        if (isAIPlayer(pid)) {
+          state.phase = 'AI_THINKING';
+          state.validTokenUids.clear();
+          state.busy = true;
+          renderTokens();
+          renderHUDs();
+
+          await sleep(380);
+          if (gen !== state.matchGen) return;
+          await waitWhilePaused(gen);
+          if (gen !== state.matchGen) return;
+
+          const chosen = chooseAIMove(pid, validTokens, state.bankCursor);
+          chosen.el.classList.add('ai-chosen');
+          await sleep(260);
+          chosen.el.classList.remove('ai-chosen');
+          if (gen !== state.matchGen) return;
+
+          state.phase = 'MOVING';
+          renderHUDs();
+          await executeTokenMove(chosen, currentRollObj, gen);
+          return;
+        }
+
+        // MULTIPLE VALID TOKENS — HUMAN SELECTION:
         // Make valid tokens pulsate and glow prominently, waiting for user tap
         state.phase = 'AWAITING_TOKEN';
         state.validTokenUids = new Set(validTokens.map((t) => t.uid));
@@ -2388,6 +3120,7 @@
 
       async function handleTokenTap(uid) {
         if (!state.started || state.busy) return;
+        if (isAIPlayer(currentPlayerId())) return;
         if (state.phase !== 'AWAITING_TOKEN') return;
         if (!state.validTokenUids.has(uid)) return;
 
@@ -2556,17 +3289,151 @@
 
         renderTokens();
         renderHUDs();
+
+        if (isAIPlayer(currentPlayerId())) {
+          scheduleAIRoll(state.matchGen, 480);
+        }
       }
 
       /* =====================================================================
-       * 8. MODALS & UI EVENT WIRING
+       * 8. MODALS, PLAYER / AI SETUP & UI EVENT WIRING
        * ===================================================================== */
       const setupModal = document.getElementById('setup-modal');
       const victoryModal = document.getElementById('victory-modal');
-      const setupCancelRow = document.getElementById('setup-cancel-row');
+      const resumeBtn = document.getElementById('btn-resume-game');
+      const setupSeatsList = document.getElementById('setup-seats-list');
+      const setupFootnote = document.getElementById('setup-footnote');
+      const presetVsAiBtn = document.getElementById('preset-vs-ai');
+      const presetAllHumanBtn = document.getElementById('preset-all-human');
+
+      function ensureDraftHasHuman() {
+        const roster = MODE_ROSTERS[setupDraft.playerCount];
+        const hasHuman = roster.some((pid) => setupDraft.seats[pid].type === 'human');
+        if (!hasHuman) {
+          setupDraft.seats[roster[0]].type = 'human';
+        }
+      }
+
+      function renderSetupModal(customNote = '') {
+        ensureDraftHasHuman();
+        const roster = MODE_ROSTERS[setupDraft.playerCount];
+
+        // 1. Sync player count tabs (2 / 3 / 4)
+        document.querySelectorAll('.count-tab').forEach((tab) => {
+          tab.classList.toggle('selected', Number(tab.dataset.count) === setupDraft.playerCount);
+        });
+
+        // 2. Sync quick preset tabs (Human + AI vs All Human)
+        const aiCount = roster.filter((pid) => setupDraft.seats[pid].type === 'ai').length;
+        const humanCount = roster.length - aiCount;
+        presetAllHumanBtn.classList.toggle('selected', aiCount === 0);
+        presetVsAiBtn.classList.toggle('selected', aiCount > 0);
+
+        // 3. Render active station rows
+        setupSeatsList.innerHTML = '';
+        roster.forEach((pid) => {
+          const pDef = PLAYER_DEFS[pid];
+          const seat = setupDraft.seats[pid];
+
+          const row = document.createElement('div');
+          row.className = 'seat-row';
+          row.dataset.seat = pid;
+
+          // Left: Station identity
+          const identity = document.createElement('div');
+          identity.className = 'seat-identity';
+          identity.innerHTML = `
+            <span class="seat-dot" style="background:${pDef.hex};box-shadow:0 0 10px ${pDef.hex}"></span>
+            <span class="seat-label-group">
+              <span class="seat-color-name">${pDef.name}</span>
+              <span class="seat-corner-hint">${STATION_HINTS[pid]}</span>
+            </span>
+          `;
+
+          // Center: Human vs Computer AI toggle
+          const roleGroup = document.createElement('div');
+          roleGroup.className = 'seg-group';
+
+          const humanBtn = document.createElement('button');
+          humanBtn.type = 'button';
+          humanBtn.className = `seg-btn${seat.type === 'human' ? ' active' : ''}`;
+          humanBtn.textContent = 'Human';
+          humanBtn.addEventListener('click', () => {
+            seat.type = 'human';
+            renderSetupModal();
+          });
+
+          const aiBtn = document.createElement('button');
+          aiBtn.type = 'button';
+          aiBtn.className = `seg-btn${seat.type === 'ai' ? ' active' : ''}`;
+          aiBtn.textContent = 'AI';
+          aiBtn.addEventListener('click', () => {
+            if (seat.type === 'ai') return;
+            const otherHumans = roster.filter((other) => other !== pid && setupDraft.seats[other].type === 'human');
+            let note = '';
+            if (otherHumans.length === 0) {
+              const fallbackHuman = roster.find((other) => other !== pid);
+              if (fallbackHuman) {
+                setupDraft.seats[fallbackHuman].type = 'human';
+                note = `Switched ${PLAYER_DEFS[fallbackHuman].name} to Human (at least 1 Human player is required).`;
+              }
+            }
+            seat.type = 'ai';
+            renderSetupModal(note);
+          });
+
+          roleGroup.appendChild(humanBtn);
+          roleGroup.appendChild(aiBtn);
+
+          // Right: Difficulty selector (for AI) or Touch indicator (for Human)
+          const rightSlot = document.createElement('div');
+          rightSlot.className = 'seat-right-slot';
+
+          if (seat.type === 'ai') {
+            const diffGroup = document.createElement('div');
+            diffGroup.className = 'seg-group';
+            [
+              { id: 'easy', label: 'Easy' },
+              { id: 'medium', label: 'Medium' },
+              { id: 'hard', label: 'Hard' }
+            ].forEach((lvl) => {
+              const dBtn = document.createElement('button');
+              dBtn.type = 'button';
+              dBtn.className = `seg-btn diff-${lvl.id}${seat.difficulty === lvl.id ? ' active' : ''}`;
+              dBtn.textContent = lvl.label;
+              dBtn.addEventListener('click', () => {
+                seat.difficulty = lvl.id;
+                renderSetupModal();
+              });
+              diffGroup.appendChild(dBtn);
+            });
+            rightSlot.appendChild(diffGroup);
+          } else {
+            const pill = document.createElement('div');
+            pill.className = 'human-ready-pill';
+            pill.textContent = 'Touch Controls';
+            rightSlot.appendChild(pill);
+          }
+
+          row.appendChild(identity);
+          row.appendChild(roleGroup);
+          row.appendChild(rightSlot);
+          setupSeatsList.appendChild(row);
+        });
+
+        // 4. Contextual footnote summary
+        if (customNote) {
+          setupFootnote.textContent = customNote;
+        } else if (aiCount === 0) {
+          setupFootnote.textContent = `Pass & Play · All ${roster.length} stations controlled by Human players.`;
+        } else {
+          setupFootnote.textContent = `${humanCount} Human + ${aiCount} Computer AI · At least 1 station is always Human.`;
+        }
+      }
 
       function openSetupModal(allowCancel = false) {
-        setupCancelRow.classList.toggle('hidden', !allowCancel);
+        resumeBtn.classList.toggle('hidden', !allowCancel);
+        renderSetupModal();
         if (!setupModal.open) {
           setupModal.showModal();
         }
@@ -2579,16 +3446,21 @@
 
         const unfinished = state.activePlayers.filter((p) => !isPlayerFinished(p));
         const pDef = PLAYER_DEFS[winnerPid];
+        const winnerRole = isAIPlayer(winnerPid) ? ` (${getPlayerDifficulty(winnerPid).toUpperCase()} AI)` : '';
 
         if (state.finishedRankings.length === 1 && unfinished.length >= 2) {
           titleEl.textContent = `${pDef.name.toUpperCase()} CLAIMS 1ST!`;
-          subEl.textContent = `${pDef.name} brought all 4 tokens home. Start a new match or continue for 2nd & 3rd place.`;
+          subEl.textContent = `${pDef.name}${winnerRole} brought all 4 tokens home. Start a new match or continue for 2nd & 3rd place.`;
           continueBtn.classList.remove('hidden');
         } else {
-          const champ = PLAYER_DEFS[state.finishedRankings[0]];
+          const champPid = state.finishedRankings[0];
+          const champ = PLAYER_DEFS[champPid];
           titleEl.textContent = `${champ.name.toUpperCase()} VICTORY!`;
           const summary = state.finishedRankings
-            .map((pid, idx) => `#${idx + 1} ${PLAYER_DEFS[pid].name}`)
+            .map((pid, idx) => {
+              const tag = isAIPlayer(pid) ? ` (${getPlayerDifficulty(pid).toUpperCase()} AI)` : '';
+              return `#${idx + 1} ${PLAYER_DEFS[pid].name}${tag}`;
+            })
             .join('  ·  ');
           subEl.textContent = summary || `${champ.name} brought all 4 tokens safely to the center goal.`;
           continueBtn.classList.add('hidden');
@@ -2608,21 +3480,50 @@
         if (!state.started) e.preventDefault();
       });
 
+      setupModal.addEventListener('close', () => {
+        notifySetupClosed();
+      });
+
       victoryModal.addEventListener('cancel', (e) => {
         e.preventDefault();
       });
 
-      document.querySelectorAll('.mode-btn').forEach((btn) => {
+      document.querySelectorAll('.count-tab').forEach((btn) => {
         btn.addEventListener('click', () => {
-          const count = Number(btn.dataset.count);
-          if (setupModal.open) setupModal.close();
-          if (victoryModal.open) victoryModal.close();
-          initMatch(count);
+          setupDraft.playerCount = Number(btn.dataset.count);
+          renderSetupModal();
         });
       });
 
-      document.getElementById('btn-resume-game').addEventListener('click', () => {
+      presetAllHumanBtn.addEventListener('click', () => {
+        MODE_ROSTERS[setupDraft.playerCount].forEach((pid) => {
+          setupDraft.seats[pid].type = 'human';
+        });
+        renderSetupModal();
+      });
+
+      presetVsAiBtn.addEventListener('click', () => {
+        const roster = MODE_ROSTERS[setupDraft.playerCount];
+        const hasAnyAi = roster.some((pid) => setupDraft.seats[pid].type === 'ai');
+        if (!hasAnyAi) {
+          roster.forEach((pid, idx) => {
+            setupDraft.seats[pid].type = idx === 0 ? 'human' : 'ai';
+          });
+        }
+        renderSetupModal();
+      });
+
+      document.getElementById('btn-start-match').addEventListener('click', () => {
+        ensureDraftHasHuman();
         if (setupModal.open) setupModal.close();
+        notifySetupClosed();
+        if (victoryModal.open) victoryModal.close();
+        initMatch(setupDraft.playerCount, setupDraft.seats);
+      });
+
+      resumeBtn.addEventListener('click', () => {
+        if (setupModal.open) setupModal.close();
+        notifySetupClosed();
       });
 
       document.getElementById('btn-new-game').addEventListener('click', () => {
