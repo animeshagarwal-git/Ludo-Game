@@ -21,6 +21,7 @@ A complete, fully playable, offline single-file HTML/CSS/JavaScript classic Ludo
 
 ## Version History
 
+- **v2.1 (PWA & Offline Airplane Mode):** Added Progressive Web App (PWA) support with custom iPad home screen app icons (`apple-touch-icon.png`, `icon-192.png`, `icon-512.png`), a web app manifest (`manifest.webmanifest`), and an offline caching Service Worker (`sw.js`). Adding to the iPad Home Screen gives it a native app icon and enables 100% offline play in Airplane Mode.
 - **v2:** Added Computer Players with per-seat Human/AI role selection, `Human + AI` / `All Human` presets across 2-, 3-, and 4-player setups, automated tabletop AI turn pacing, and a 3-tier AI strategy engine (`Easy`, `Medium`, `Hard`).
 - **v1.1:** Added full-sequence lookahead validation (`canCompleteRollSequence` & `getValidTokensForBankSequence`) so partial banked rolls cannot be played; players either forfeit if the full bank is unplayable or are forced to pick moves that utilize the entire banked sequence.
 - **v1:** Initial release of Classic Ludo Pro Tabletop Edition for iPad Pro.
