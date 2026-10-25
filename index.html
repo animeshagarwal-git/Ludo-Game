@@ -1418,8 +1418,8 @@
       <div class="brand-emblem" aria-hidden="true">
         <span></span><span></span><span></span><span></span>
       </div>
-      <h1 class="modal-title" id="setup-title">CLASSIC LUDO</h1>
-      <p class="modal-subtitle">Select player count to configure command stations.<br />Banked 6s · 3-Six Bust · Strict FIFO Movement</p>
+      <h1 class="modal-title" id="setup-title">CLASSIC LUDO <span style="font-size:0.85rem;font-weight:700;vertical-align:middle;padding:3px 9px;border-radius:999px;background:rgba(59,130,246,0.22);border:1px solid rgba(96,165,250,0.45);-webkit-text-fill-color:#bfdbfe;letter-spacing:0.05em;">v1.1</span></h1>
+      <p class="modal-subtitle">Select player count to configure command stations.<br />Banked 6s · 3-Six Bust · Full-Bank FIFO Enforcement</p>
 
       <div class="mode-grid">
         <button type="button" class="mode-btn" data-count="2">
@@ -1855,14 +1855,47 @@
         return (PLAYER_DEFS[pid].startIndex + (pos - 1)) % 52;
       }
 
-      function canTokenPlayRoll(token, roll) {
-        if (token.pos === 57) return false;
-        if (token.pos === 0) return roll === 6;
-        return token.pos + roll <= 57;
+      function nextPosAfterRoll(pos, roll) {
+        if (pos === 57) return -1;
+        if (pos === 0) return roll === 6 ? 1 : -1;
+        return pos + roll <= 57 ? pos + roll : -1;
       }
 
-      function getValidTokensForRoll(pid, roll) {
-        return getPlayerTokens(pid).filter((t) => canTokenPlayRoll(t, roll));
+      // Full-bank lookahead: returns true iff there exists at least one legal
+      // sequence of token moves that consumes EVERY roll in rolls[rollIdx..end].
+      function canCompleteRollSequence(positions, rolls, rollIdx) {
+        if (rollIdx >= rolls.length) return true;
+        const roll = rolls[rollIdx];
+        for (let i = 0; i < positions.length; i++) {
+          const nextPos = nextPosAfterRoll(positions[i], roll);
+          if (nextPos !== -1) {
+            const nextPositions = positions.slice();
+            nextPositions[i] = nextPos;
+            if (canCompleteRollSequence(nextPositions, rolls, rollIdx + 1)) {
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+
+      // Returns only tokens whose move on the current FIFO roll preserves at least
+      // one legal way to utilize the ENTIRE remaining banked roll sequence.
+      function getValidTokensForBankSequence(pid, cursor) {
+        const tokens = getPlayerTokens(pid);
+        const remainingRolls = state.bank.slice(cursor).map((b) => b.value);
+        if (remainingRolls.length === 0) return [];
+
+        const positions = tokens.map((t) => t.pos);
+        const currentRoll = remainingRolls[0];
+
+        return tokens.filter((_, idx) => {
+          const nextPos = nextPosAfterRoll(positions[idx], currentRoll);
+          if (nextPos === -1) return false;
+          const nextPositions = positions.slice();
+          nextPositions[idx] = nextPos;
+          return canCompleteRollSequence(nextPositions, remainingRolls, 1);
+        });
       }
 
       /* =====================================================================
@@ -2301,14 +2334,14 @@
         }
 
         const currentRollObj = state.bank[state.bankCursor];
-        currentRollObj.status = 'active';
         const rollVal = currentRollObj.value;
 
-        const validTokens = getValidTokensForRoll(pid, rollVal);
+        const validTokens = getValidTokensForBankSequence(pid, state.bankCursor);
 
-        // STRICT FORFEIT RULE:
-        // If the first available banked roll cannot mathematically be played by ANY token,
-        // the entire remaining sequence is forfeited and the turn ends immediately.
+        // FULL-BANK ALL-OR-NOTHING FORFEIT RULE (v1.1):
+        // A player cannot utilize a partial banked roll and end their turn.
+        // If no legal move sequence exists that utilizes the ENTIRE banked roll,
+        // the entire banked roll is forfeited immediately without moving any token.
         if (validTokens.length === 0) {
           for (let i = state.bankCursor; i < state.bank.length; i++) {
             state.bank[i].status = 'forfeit';
@@ -2316,18 +2349,20 @@
           state.bonusRolls = 0;
           Sfx.forfeit();
           renderHUDs();
-          const remainingCount = state.bank.length - state.bankCursor;
           const isMultiRollForfeit = state.bank.length > 1;
+          const seqLabel = state.bank.map((b) => b.value).join(', ');
           showToast(
-            remainingCount > 1 ? `No Move for [${rollVal}] — Bank Forfeited!` : `No Valid Move for [${rollVal}]`,
+            isMultiRollForfeit ? `Full Bank [${seqLabel}] Unplayable — Forfeit!` : `No Valid Move for [${rollVal}]`,
             'danger',
-            isMultiRollForfeit ? 1000 : 650
+            isMultiRollForfeit ? 1100 : 650
           );
-          await sleep(isMultiRollForfeit ? 960 : 580);
+          await sleep(isMultiRollForfeit ? 1020 : 580);
           if (gen !== state.matchGen) return;
           advanceToNextTurn();
           return;
         }
+
+        currentRollObj.status = 'active';
 
         // AUTO-PLAY RULE:
         // If only ONE mathematically valid token can move for the current roll, move it automatically!
