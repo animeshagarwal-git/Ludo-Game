@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Ludo Pro" />
@@ -42,13 +43,27 @@
       --blue-soft: rgba(59, 130, 246, 0.18);
       --blue-glow: rgba(59, 130, 246, 0.55);
 
-      --board-size: min(calc(100vh - 74px), calc(100vw - 516px));
+      --safe-t: env(safe-area-inset-top, 0px);
+      --safe-r: env(safe-area-inset-right, 0px);
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --safe-l: env(safe-area-inset-left, 0px);
+
+      --flank-min: 210px;
+      --board-size: min(
+        calc(100vh - 76px - var(--safe-t) - var(--safe-b)),
+        calc(100vw - 484px - var(--safe-l) - var(--safe-r)),
+        980px
+      );
       --ambient-color: rgba(239, 68, 68, 0.12);
     }
 
     @supports (height: 100dvh) {
       :root {
-        --board-size: min(calc(100dvh - 74px), calc(100dvw - 516px));
+        --board-size: min(
+          calc(100dvh - 76px - var(--safe-t) - var(--safe-b)),
+          calc(100dvw - 484px - var(--safe-l) - var(--safe-r)),
+          980px
+        );
       }
     }
 
@@ -78,18 +93,20 @@
       transition: background 0.45s ease;
     }
 
-    /* Main 3-Column iPad Pro Landscape Command Layout */
+    /* Main Adaptive Shell (3-Column Landscape Command Layout / 2x4 Portrait Tabletop Stack) */
     .app-shell {
-      width: 100vw;
+      width: 100%;
+      max-width: 1720px;
+      margin: 0 auto;
       height: 100vh;
       height: 100dvh;
       padding:
-        max(12px, env(safe-area-inset-top))
-        max(16px, env(safe-area-inset-right))
-        max(12px, env(safe-area-inset-bottom))
-        max(16px, env(safe-area-inset-left));
+        max(12px, var(--safe-t))
+        max(16px, var(--safe-r))
+        max(12px, var(--safe-b))
+        max(16px, var(--safe-l));
       display: grid;
-      grid-template-columns: minmax(210px, 1fr) auto minmax(210px, 1fr);
+      grid-template-columns: minmax(var(--flank-min), 1fr) auto minmax(var(--flank-min), 1fr);
       align-items: stretch;
       gap: 16px;
     }
@@ -97,9 +114,10 @@
     /* Left & Right Command Stations */
     .flank {
       display: grid;
-      grid-template-rows: 1fr 1fr;
+      grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
       gap: 14px;
       min-width: 0;
+      min-height: 0;
       height: 100%;
     }
 
@@ -113,6 +131,10 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      gap: 6px;
+      min-width: 0;
+      min-height: 0;
+      container-type: inline-size;
       padding: 14px 15px;
       border-radius: 22px;
       background: var(--panel-bg);
@@ -124,6 +146,15 @@
       -webkit-backdrop-filter: blur(16px);
       transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.28s ease, box-shadow 0.28s ease, opacity 0.28s ease;
       overflow: hidden;
+    }
+
+    .hud-controls {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
     }
 
     .hud-card::before {
@@ -677,17 +708,28 @@
       justify-content: center;
       gap: 10px;
       min-width: 0;
+      min-height: 0;
       height: 100%;
+    }
+
+    .board-slot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      min-height: 0;
     }
 
     .arena-topbar {
       width: var(--board-size);
+      max-width: 100%;
       height: 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
       padding: 0 6px;
+      flex-shrink: 0;
     }
 
     .turn-banner {
@@ -996,16 +1038,19 @@
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%) scale(0.86);
-      padding: 12px 24px;
+      max-width: 92%;
+      padding: clamp(8px, 1.4vmin, 12px) clamp(14px, 2.8vmin, 24px);
       border-radius: 999px;
       background: rgba(9, 13, 24, 0.92);
       border: 2px solid rgba(255, 255, 255, 0.24);
       color: #ffffff;
-      font-size: 1rem;
+      font-size: clamp(0.72rem, 2.1vmin, 1rem);
       font-weight: 800;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      white-space: nowrap;
+      text-align: center;
+      line-height: 1.25;
+      white-space: normal;
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.75);
       pointer-events: none;
       opacity: 0;
@@ -1037,9 +1082,12 @@
       padding: 0;
       background: transparent;
       color: var(--text-main);
-      max-width: min(92vw, 720px);
-      width: 100%;
-      overflow: auto;
+      max-width: min(94vw, 720px);
+      width: min(94vw, 720px);
+      max-height: calc(100vh - 24px);
+      max-height: calc(100dvh - max(16px, var(--safe-t)) - max(16px, var(--safe-b)));
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     dialog:modal {
@@ -1351,36 +1399,617 @@
       display: none !important;
     }
 
-    /* Responsive fallback for smaller tablets/windows while keeping iPad Pro 13" optimal */
-    @media (max-width: 1080px) {
+    /* =====================================================================
+     * UNIVERSAL RESPONSIVE ADAPTATION (LAPTOPS, TABLETS & PHONES)
+     * ===================================================================== */
+
+    /* 1. Laptops & Compact Landscape Tablets (e.g. 13" MacBook Air, 11" iPad, split-screen) */
+    @media (orientation: landscape) and (min-height: 541px) and (max-width: 1180px),
+           (orientation: landscape) and (min-height: 541px) and (max-height: 830px) {
       :root {
-        --board-size: min(calc(100vh - 68px), calc(100vw - 410px));
+        --flank-min: 170px;
+        --board-size: min(
+          calc(100vh - 64px - var(--safe-t) - var(--safe-b)),
+          calc(100vw - 384px - var(--safe-l) - var(--safe-r))
+        );
       }
       @supports (height: 100dvh) {
         :root {
-          --board-size: min(calc(100dvh - 68px), calc(100dvw - 410px));
+          --board-size: min(
+            calc(100dvh - 64px - var(--safe-t) - var(--safe-b)),
+            calc(100dvw - 384px - var(--safe-l) - var(--safe-r))
+          );
         }
       }
       .app-shell {
-        grid-template-columns: minmax(175px, 1fr) auto minmax(175px, 1fr);
         gap: 10px;
+        padding:
+          max(8px, var(--safe-t))
+          max(12px, var(--safe-r))
+          max(8px, var(--safe-b))
+          max(12px, var(--safe-l));
+      }
+      .flank {
+        gap: 10px;
+      }
+      .center-arena {
+        gap: 8px;
+      }
+      .arena-topbar {
+        height: 36px;
       }
       .hud-card {
-        padding: 10px 11px;
+        padding: 10px 12px;
+        border-radius: 18px;
+        gap: 4px;
+      }
+      .hud-controls {
+        gap: 7px;
+      }
+      .player-name {
+        font-size: 0.92rem;
       }
       .dice-btn {
-        min-height: 76px;
-        padding: 8px 10px;
+        min-height: 62px;
+        padding: 7px 10px;
         gap: 10px;
+        border-radius: 14px;
       }
       .die-face {
-        width: 50px;
-        height: 50px;
-        padding: 7px;
+        width: 44px;
+        height: 44px;
+        padding: 6.5px;
+        gap: 2px;
+        border-radius: 10px;
       }
       .pip {
+        width: 7px;
+        height: 7px;
+      }
+      .dice-cta-main {
+        font-size: 0.84rem;
+      }
+      .dice-cta-sub {
+        font-size: 0.66rem;
+      }
+      .bank-tray {
+        padding: 6px 8px;
+        gap: 4px;
+        border-radius: 12px;
+      }
+      .bank-slots {
+        min-height: 32px;
+        gap: 5px;
+      }
+      .bank-empty-slot {
+        width: 30px;
+        height: 30px;
+      }
+      .bank-chip {
+        width: 32px;
+        height: 32px;
+        padding: 5px;
+      }
+      .bank-chip .pip {
+        width: 5px;
+        height: 5px;
+      }
+    }
+
+    /* 2. Mobile Phones in Landscape (e.g. iPhone 14 Pro Max Landscape, Galaxy S26 Landscape) */
+    @media (orientation: landscape) and (max-height: 540px) {
+      :root {
+        --flank-min: 132px;
+        --board-size: min(
+          calc(100vh - 44px - var(--safe-t) - var(--safe-b)),
+          calc(100vw - 296px - var(--safe-l) - var(--safe-r))
+        );
+      }
+      @supports (height: 100dvh) {
+        :root {
+          --board-size: min(
+            calc(100dvh - 44px - var(--safe-t) - var(--safe-b)),
+            calc(100dvw - 296px - var(--safe-l) - var(--safe-r))
+          );
+        }
+      }
+      .app-shell {
+        gap: 8px;
+        padding:
+          max(6px, var(--safe-t))
+          max(10px, var(--safe-r))
+          max(6px, var(--safe-b))
+          max(10px, var(--safe-l));
+      }
+      .flank {
+        gap: 6px;
+      }
+      .center-arena {
+        gap: 5px;
+      }
+      .arena-topbar {
+        height: 28px;
+        padding: 0 2px;
+        gap: 6px;
+      }
+      .turn-banner {
+        padding: 4px 10px;
+        gap: 6px;
+      }
+      .turn-banner-dot {
         width: 8px;
         height: 8px;
+      }
+      .turn-banner-text {
+        font-size: 0.72rem;
+      }
+      .icon-pill-btn {
+        height: 27px;
+        padding: 0 9px;
+        font-size: 0.65rem;
+        gap: 4px;
+      }
+      .icon-pill-btn svg {
+        width: 13px;
+        height: 13px;
+      }
+      .board-frame {
+        padding: 5px;
+        border-radius: 16px;
+      }
+      .board-stage {
+        border-radius: 12px;
+      }
+      .hud-card {
+        padding: 6px 8px;
+        border-radius: 13px;
+        gap: 3px;
+      }
+      .player-id-group {
+        gap: 6px;
+      }
+      .player-orb {
+        width: 11px;
+        height: 11px;
+      }
+      .player-name {
+        font-size: 0.76rem;
+      }
+      .role-tag {
+        font-size: 0.48rem;
+        padding: 1px 4px;
+      }
+      .player-sub {
+        display: none;
+      }
+      .goal-pips {
+        padding: 2.5px 5px;
+        gap: 3px;
+      }
+      .goal-pip {
+        width: 6.5px;
+        height: 6.5px;
+      }
+      .hud-status-row {
+        min-height: 16px;
+      }
+      .hud-phase-badge {
+        font-size: 0.56rem;
+        padding: 1.5px 6px;
+        border-radius: 5px;
+      }
+      .bonus-pill {
+        font-size: 0.54rem;
+        padding: 1.5px 5px;
+      }
+      .hud-controls {
+        gap: 4px;
+      }
+      .dice-btn {
+        min-height: 40px;
+        padding: 4px 7px;
+        gap: 7px;
+        border-radius: 10px;
+      }
+      .die-face {
+        width: 30px;
+        height: 30px;
+        padding: 4.5px;
+        gap: 1.5px;
+        border-radius: 7px;
+      }
+      .pip {
+        width: 4.5px;
+        height: 4.5px;
+      }
+      .dice-cta-main {
+        font-size: 0.72rem;
+      }
+      .dice-cta-sub {
+        font-size: 0.56rem;
+        margin-top: 1px;
+      }
+      .bank-tray {
+        padding: 3px 6px;
+        border-radius: 8px;
+      }
+      .bank-tray-header {
+        display: none;
+      }
+      .bank-slots {
+        min-height: 22px;
+        gap: 4px;
+      }
+      .bank-empty-slot {
+        width: 20px;
+        height: 20px;
+        border-radius: 5px;
+      }
+      .bank-chip {
+        width: 22px;
+        height: 22px;
+        padding: 3.5px;
+        gap: 1px;
+        border-radius: 6px;
+      }
+      .bank-chip .pip {
+        width: 3.5px;
+        height: 3.5px;
+      }
+      .modal-card {
+        padding: 14px 18px;
+        border-radius: 20px;
+      }
+      .brand-emblem {
+        display: none;
+      }
+      .modal-title {
+        font-size: 1.28rem;
+      }
+      .modal-subtitle {
+        margin: 3px 0 9px;
+        font-size: 0.75rem;
+      }
+      .setup-toolbar {
+        margin-bottom: 8px;
+        gap: 8px;
+      }
+      .count-tab,
+      .preset-tab {
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 0.72rem;
+      }
+      .seats-list {
+        gap: 5px;
+      }
+      .seat-row {
+        padding: 6px 10px;
+        border-radius: 12px;
+      }
+      .seg-btn {
+        min-height: 28px;
+        padding: 0 9px;
+        font-size: 0.68rem;
+      }
+      .human-ready-pill {
+        min-height: 30px;
+        font-size: 0.65rem;
+        padding: 0 10px;
+      }
+      .setup-footnote {
+        margin-top: 6px;
+        font-size: 0.68rem;
+      }
+      .modal-footer-row {
+        margin-top: 10px;
+      }
+      .secondary-btn,
+      .primary-btn {
+        padding: 9px 18px;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* 3. Portrait Phones & Portrait Tablets (Tabletop Top/Bottom Stations + Full-Width Square Board) */
+    @media (orientation: portrait) {
+      :root {
+        --board-size: min(
+          calc(100vw - 20px - var(--safe-l) - var(--safe-r)),
+          calc(100vh - 300px - var(--safe-t) - var(--safe-b))
+        );
+      }
+      @supports (height: 100dvh) {
+        :root {
+          --board-size: min(
+            calc(100dvw - 20px - var(--safe-l) - var(--safe-r)),
+            calc(100dvh - 300px - var(--safe-t) - var(--safe-b))
+          );
+        }
+      }
+      .app-shell {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: auto auto minmax(0, 1fr) auto;
+        gap: 8px;
+        padding:
+          max(8px, var(--safe-t))
+          max(10px, var(--safe-r))
+          max(8px, var(--safe-b))
+          max(10px, var(--safe-l));
+      }
+      .flank,
+      .center-arena {
+        display: contents;
+      }
+      .arena-topbar {
+        grid-column: 1 / -1;
+        grid-row: 1;
+        width: 100%;
+        height: 34px;
+        padding: 0 2px;
+      }
+      #hud-red {
+        grid-column: 1;
+        grid-row: 2;
+      }
+      #hud-green {
+        grid-column: 2;
+        grid-row: 2;
+      }
+      .board-slot {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        width: 100%;
+        height: 100%;
+        container-type: size;
+      }
+      #hud-blue {
+        grid-column: 1;
+        grid-row: 4;
+      }
+      #hud-yellow {
+        grid-column: 2;
+        grid-row: 4;
+      }
+      /* Span full row when only one station is active in the top or bottom row */
+      .app-shell:has(#hud-green.inactive-player) #hud-red,
+      .app-shell:has(#hud-red.inactive-player) #hud-green {
+        grid-column: 1 / -1;
+      }
+      .app-shell:has(#hud-blue.inactive-player) #hud-yellow,
+      .app-shell:has(#hud-yellow.inactive-player) #hud-blue {
+        grid-column: 1 / -1;
+      }
+      @supports (width: 100cqw) {
+        .board-frame {
+          width: min(100cqw, 100cqh);
+          height: min(100cqw, 100cqh);
+        }
+      }
+      .board-frame {
+        padding: 6px;
+        border-radius: 20px;
+      }
+      .board-stage {
+        border-radius: 14px;
+      }
+      .hud-card {
+        padding: 8px 10px;
+        border-radius: 16px;
+        gap: 5px;
+        justify-content: flex-start;
+      }
+      .hud-header {
+        gap: 5px;
+      }
+      .player-id-group {
+        gap: 6px;
+      }
+      .player-orb {
+        width: 12px;
+        height: 12px;
+      }
+      .player-name {
+        font-size: 0.82rem;
+      }
+      .role-tag {
+        font-size: 0.5rem;
+        padding: 1.5px 5px;
+      }
+      .player-sub {
+        display: none;
+      }
+      .goal-pips {
+        padding: 3px 6px;
+        gap: 3.5px;
+      }
+      .goal-pip {
+        width: 7px;
+        height: 7px;
+      }
+      .hud-status-row {
+        min-height: 18px;
+      }
+      .hud-phase-badge {
+        font-size: 0.6rem;
+        padding: 2px 7px;
+        border-radius: 6px;
+      }
+      .bonus-pill {
+        font-size: 0.56rem;
+        padding: 2px 6px;
+      }
+      .hud-controls {
+        gap: 5px;
+      }
+      .dice-btn {
+        min-height: 44px;
+        padding: 5px 8px;
+        gap: 8px;
+        border-radius: 12px;
+      }
+      .die-face {
+        width: 34px;
+        height: 34px;
+        padding: 5px;
+        gap: 2px;
+        border-radius: 8px;
+      }
+      .pip {
+        width: 5.5px;
+        height: 5.5px;
+      }
+      .dice-cta-main {
+        font-size: 0.76rem;
+      }
+      .dice-cta-sub {
+        font-size: 0.6rem;
+        margin-top: 1px;
+      }
+      .bank-tray {
+        padding: 4px 7px;
+        border-radius: 10px;
+      }
+      .bank-tray-header {
+        display: none;
+      }
+      .bank-slots {
+        min-height: 26px;
+        gap: 5px;
+      }
+      .bank-empty-slot {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+      }
+      .bank-chip {
+        width: 26px;
+        height: 26px;
+        padding: 4px;
+        gap: 1.5px;
+        border-radius: 7px;
+      }
+      .bank-chip .pip {
+        width: 4px;
+        height: 4px;
+      }
+      /* Size-aware horizontal controls when a Portrait station card has >= 300px width */
+      @container (min-width: 300px) {
+        .hud-controls {
+          display: grid;
+          grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+          align-items: stretch;
+          gap: 8px;
+        }
+        .bank-tray {
+          justify-content: center;
+        }
+        .player-name {
+          font-size: 0.92rem;
+        }
+        .dice-btn {
+          min-height: 48px;
+        }
+      }
+    }
+
+    /* 4. Narrow Screen Modals & Thumb Touch Targets (iPhones & Android Phones) */
+    @media (max-width: 660px) {
+      .token::after {
+        inset: -48%;
+      }
+      .turn-banner {
+        padding: 6px 11px;
+        gap: 7px;
+      }
+      .turn-banner-dot {
+        width: 9px;
+        height: 9px;
+      }
+      .turn-banner-text {
+        font-size: 0.75rem;
+      }
+      .arena-actions {
+        gap: 6px;
+      }
+      .icon-pill-btn {
+        height: 32px;
+        padding: 0 10px;
+        font-size: 0.7rem;
+        gap: 4px;
+      }
+      #label-sound {
+        display: none;
+      }
+      .modal-card {
+        padding: 18px 15px;
+        border-radius: 22px;
+      }
+      .brand-emblem {
+        width: 42px;
+        height: 42px;
+        padding: 7px;
+        margin-bottom: 6px;
+        border-radius: 12px;
+      }
+      .modal-title {
+        font-size: 1.4rem;
+      }
+      .modal-subtitle {
+        font-size: 0.79rem;
+        margin: 5px 0 12px;
+      }
+      .setup-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .count-tabs,
+      .preset-tabs {
+        display: flex;
+        width: 100%;
+      }
+      .count-tab,
+      .preset-tab {
+        flex: 1 1 0;
+        justify-content: center;
+        min-height: 38px;
+        padding: 0 6px;
+        font-size: 0.72rem;
+        gap: 5px;
+      }
+      .seat-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px 10px;
+        padding: 10px 12px;
+      }
+      .seat-row .seg-group {
+        justify-self: end;
+      }
+      .seat-right-slot {
+        grid-column: 1 / -1;
+        justify-content: stretch;
+      }
+      .seat-right-slot:has(.human-ready-pill) {
+        display: none;
+      }
+      .seat-right-slot .seg-group {
+        display: flex;
+        width: 100%;
+      }
+      .seat-right-slot .seg-btn {
+        flex: 1 1 0;
+      }
+      .modal-footer-row {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .secondary-btn,
+      .primary-btn {
+        flex: 1 1 auto;
+        padding: 12px 18px;
+        font-size: 0.84rem;
       }
     }
   </style>
@@ -1414,27 +2043,29 @@
           <span class="bonus-pill" id="bonus-red">+1 Bonus</span>
         </div>
 
-        <button type="button" class="dice-btn" id="dice-btn-red" data-player="red" disabled>
-          <div class="die-face" id="die-face-red" data-val="6" aria-hidden="true">
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-          </div>
-          <div class="dice-cta">
-            <span class="dice-cta-main" id="cta-main-red">Roll Dice</span>
-            <span class="dice-cta-sub" id="cta-sub-red">Waiting...</span>
-          </div>
-        </button>
+        <div class="hud-controls">
+          <button type="button" class="dice-btn" id="dice-btn-red" data-player="red" disabled>
+            <div class="die-face" id="die-face-red" data-val="6" aria-hidden="true">
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+            </div>
+            <div class="dice-cta">
+              <span class="dice-cta-main" id="cta-main-red">Roll Dice</span>
+              <span class="dice-cta-sub" id="cta-sub-red">Waiting...</span>
+            </div>
+          </button>
 
-        <div class="bank-tray">
-          <div class="bank-tray-header">
-            <span>Bank Tray</span>
-            <span>FIFO Queue</span>
-          </div>
-          <div class="bank-slots" id="bank-red">
-            <span class="bank-empty-slot"></span>
-            <span class="bank-empty-slot"></span>
-            <span class="bank-empty-slot"></span>
+          <div class="bank-tray">
+            <div class="bank-tray-header">
+              <span>Bank Tray</span>
+              <span>FIFO Queue</span>
+            </div>
+            <div class="bank-slots" id="bank-red">
+              <span class="bank-empty-slot"></span>
+              <span class="bank-empty-slot"></span>
+              <span class="bank-empty-slot"></span>
+            </div>
           </div>
         </div>
       </section>
@@ -1464,27 +2095,29 @@
           <span class="bonus-pill" id="bonus-blue">+1 Bonus</span>
         </div>
 
-        <button type="button" class="dice-btn" id="dice-btn-blue" data-player="blue" disabled>
-          <div class="die-face" id="die-face-blue" data-val="6" aria-hidden="true">
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-          </div>
-          <div class="dice-cta">
-            <span class="dice-cta-main" id="cta-main-blue">Roll Dice</span>
-            <span class="dice-cta-sub" id="cta-sub-blue">Waiting...</span>
-          </div>
-        </button>
+        <div class="hud-controls">
+          <button type="button" class="dice-btn" id="dice-btn-blue" data-player="blue" disabled>
+            <div class="die-face" id="die-face-blue" data-val="6" aria-hidden="true">
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+            </div>
+            <div class="dice-cta">
+              <span class="dice-cta-main" id="cta-main-blue">Roll Dice</span>
+              <span class="dice-cta-sub" id="cta-sub-blue">Waiting...</span>
+            </div>
+          </button>
 
-        <div class="bank-tray">
-          <div class="bank-tray-header">
-            <span>Bank Tray</span>
-            <span>FIFO Queue</span>
-          </div>
-          <div class="bank-slots" id="bank-blue">
-            <span class="bank-empty-slot"></span>
-            <span class="bank-empty-slot"></span>
-            <span class="bank-empty-slot"></span>
+          <div class="bank-tray">
+            <div class="bank-tray-header">
+              <span>Bank Tray</span>
+              <span>FIFO Queue</span>
+            </div>
+            <div class="bank-slots" id="bank-blue">
+              <span class="bank-empty-slot"></span>
+              <span class="bank-empty-slot"></span>
+              <span class="bank-empty-slot"></span>
+            </div>
           </div>
         </div>
       </section>
@@ -1521,11 +2154,13 @@
         </div>
       </div>
 
-      <div class="board-frame">
-        <div class="board-stage" id="board-stage">
-          <svg id="board-svg" viewBox="0 0 1500 1500" xmlns="http://www.w3.org/2000/svg" aria-label="Ludo Board"></svg>
-          <div class="tokens-layer" id="tokens-layer"></div>
-          <div class="board-toast" id="board-toast" role="status" aria-live="polite"></div>
+      <div class="board-slot">
+        <div class="board-frame">
+          <div class="board-stage" id="board-stage">
+            <svg id="board-svg" viewBox="0 0 1500 1500" xmlns="http://www.w3.org/2000/svg" aria-label="Ludo Board"></svg>
+            <div class="tokens-layer" id="tokens-layer"></div>
+            <div class="board-toast" id="board-toast" role="status" aria-live="polite"></div>
+          </div>
         </div>
       </div>
     </main>
@@ -1557,27 +2192,29 @@
           <span class="bonus-pill" id="bonus-green">+1 Bonus</span>
         </div>
 
-        <button type="button" class="dice-btn" id="dice-btn-green" data-player="green" disabled>
-          <div class="die-face" id="die-face-green" data-val="6" aria-hidden="true">
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-          </div>
-          <div class="dice-cta">
-            <span class="dice-cta-main" id="cta-main-green">Roll Dice</span>
-            <span class="dice-cta-sub" id="cta-sub-green">Waiting...</span>
-          </div>
-        </button>
+        <div class="hud-controls">
+          <button type="button" class="dice-btn" id="dice-btn-green" data-player="green" disabled>
+            <div class="die-face" id="die-face-green" data-val="6" aria-hidden="true">
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+            </div>
+            <div class="dice-cta">
+              <span class="dice-cta-main" id="cta-main-green">Roll Dice</span>
+              <span class="dice-cta-sub" id="cta-sub-green">Waiting...</span>
+            </div>
+          </button>
 
-        <div class="bank-tray">
-          <div class="bank-tray-header">
-            <span>Bank Tray</span>
-            <span>FIFO Queue</span>
-          </div>
-          <div class="bank-slots" id="bank-green">
-            <span class="bank-empty-slot"></span>
-            <span class="bank-empty-slot"></span>
-            <span class="bank-empty-slot"></span>
+          <div class="bank-tray">
+            <div class="bank-tray-header">
+              <span>Bank Tray</span>
+              <span>FIFO Queue</span>
+            </div>
+            <div class="bank-slots" id="bank-green">
+              <span class="bank-empty-slot"></span>
+              <span class="bank-empty-slot"></span>
+              <span class="bank-empty-slot"></span>
+            </div>
           </div>
         </div>
       </section>
@@ -1607,40 +2244,42 @@
           <span class="bonus-pill" id="bonus-yellow">+1 Bonus</span>
         </div>
 
-        <button type="button" class="dice-btn" id="dice-btn-yellow" data-player="yellow" disabled>
-          <div class="die-face" id="die-face-yellow" data-val="6" aria-hidden="true">
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-            <span class="pip"></span><span class="pip"></span><span class="pip"></span>
-          </div>
-          <div class="dice-cta">
-            <span class="dice-cta-main" id="cta-main-yellow">Roll Dice</span>
-            <span class="dice-cta-sub" id="cta-sub-yellow">Waiting...</span>
-          </div>
-        </button>
+        <div class="hud-controls">
+          <button type="button" class="dice-btn" id="dice-btn-yellow" data-player="yellow" disabled>
+            <div class="die-face" id="die-face-yellow" data-val="6" aria-hidden="true">
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+              <span class="pip"></span><span class="pip"></span><span class="pip"></span>
+            </div>
+            <div class="dice-cta">
+              <span class="dice-cta-main" id="cta-main-yellow">Roll Dice</span>
+              <span class="dice-cta-sub" id="cta-sub-yellow">Waiting...</span>
+            </div>
+          </button>
 
-        <div class="bank-tray">
-          <div class="bank-tray-header">
-            <span>Bank Tray</span>
-            <span>FIFO Queue</span>
-          </div>
-          <div class="bank-slots" id="bank-yellow">
-            <span class="bank-empty-slot"></span>
-            <span class="bank-empty-slot"></span>
-            <span class="bank-empty-slot"></span>
+          <div class="bank-tray">
+            <div class="bank-tray-header">
+              <span>Bank Tray</span>
+              <span>FIFO Queue</span>
+            </div>
+            <div class="bank-slots" id="bank-yellow">
+              <span class="bank-empty-slot"></span>
+              <span class="bank-empty-slot"></span>
+              <span class="bank-empty-slot"></span>
+            </div>
           </div>
         </div>
       </section>
     </aside>
   </div>
 
-  <!-- IMMERSIVE SETUP MODAL (v2: Human & Computer Players) -->
+  <!-- IMMERSIVE SETUP MODAL (v2.2: Universal Responsive & Computer Players) -->
   <dialog id="setup-modal" aria-labelledby="setup-title">
     <div class="modal-card">
       <div class="brand-emblem" aria-hidden="true">
         <span></span><span></span><span></span><span></span>
       </div>
-      <h1 class="modal-title" id="setup-title">CLASSIC LUDO <span style="font-size:0.85rem;font-weight:700;vertical-align:middle;padding:3px 9px;border-radius:999px;background:rgba(59,130,246,0.22);border:1px solid rgba(96,165,250,0.45);-webkit-text-fill-color:#bfdbfe;letter-spacing:0.05em;">v2</span></h1>
+      <h1 class="modal-title" id="setup-title">CLASSIC LUDO <span style="font-size:0.85rem;font-weight:700;vertical-align:middle;padding:3px 9px;border-radius:999px;background:rgba(59,130,246,0.22);border:1px solid rgba(96,165,250,0.45);-webkit-text-fill-color:#bfdbfe;letter-spacing:0.05em;">v2.2</span></h1>
       <p class="modal-subtitle">Choose 2, 3, or 4 players and configure each station as Human or Computer AI.</p>
 
       <div class="setup-toolbar">

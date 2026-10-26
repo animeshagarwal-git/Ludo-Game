@@ -1,9 +1,10 @@
-# Classic Ludo — Pro Tabletop Edition (v2)
+# Classic Ludo — Pro Tabletop Edition (v2.2)
 
-A complete, fully playable, offline single-file HTML/CSS/JavaScript classic Ludo game, deeply optimized for the 13-inch iPad Pro in landscape mode.
+A complete, fully playable, offline Progressive Web App (PWA) classic Ludo game that scales seamlessly across iPhones, Android phones (such as Samsung Galaxy S26), iPads & tablets (portrait and landscape), and laptops/desktops.
 
 ## Features
 
+- **Universal Responsive Layout (v2.2):** Adapts automatically between a 3-column Command Station layout on landscape tablets/laptops/phones and a Top/Bottom Tabletop Stack with an edge-to-edge CSS container-queried square board in portrait mode on phones and tablets, respecting Dynamic Island and camera-cutout safe areas.
 - **Pristine 15x15 SVG Board:** Corner bases, star-marked safe zones (indices 1, 9, 14, 22, 27, 35, 40, 48), and center home triangles.
 - **Command Stations & HUDs:** Dedicated left/right player panels with role badges (`HUMAN` / `CPU · EASY|MED|HARD`), tactile 3D dice, and Bank Trays.
 - **Flexible Human & AI Setup (v2):** Choose 2, 3, or 4 players, switch between **Human + AI** and **All Human** modes, and configure each active station individually as **Human** or **Computer AI** (`Easy`, `Medium`, or `Hard`).
@@ -21,14 +22,14 @@ A complete, fully playable, offline single-file HTML/CSS/JavaScript classic Ludo
 
 ## Version History
 
+- **v2.2 (Universal Responsive & Android PWA):** Added adaptive responsive layouts for iPhones & Android phones (portrait & landscape), laptops, and portrait/landscape tablets using CSS Grid, container queries (`cqw`/`cqh`), dynamic viewport units (`dvh`/`dvw`), and `env(safe-area-inset-*)`; unlocked portrait + landscape orientation and split `any`/`maskable` manifest icons for Android Chrome & Samsung Internet.
 - **v2.1 (PWA & Offline Airplane Mode):** Added Progressive Web App (PWA) support with custom iPad home screen app icons (`apple-touch-icon.png`, `icon-192.png`, `icon-512.png`), a web app manifest (`manifest.webmanifest`), and an offline caching Service Worker (`sw.js`). Adding to the iPad Home Screen gives it a native app icon and enables 100% offline play in Airplane Mode.
 - **v2:** Added Computer Players with per-seat Human/AI role selection, `Human + AI` / `All Human` presets across 2-, 3-, and 4-player setups, automated tabletop AI turn pacing, and a 3-tier AI strategy engine (`Easy`, `Medium`, `Hard`).
 - **v1.1:** Added full-sequence lookahead validation (`canCompleteRollSequence` & `getValidTokensForBankSequence`) so partial banked rolls cannot be played; players either forfeit if the full bank is unplayable or are forced to pick moves that utilize the entire banked sequence.
 - **v1:** Initial release of Classic Ludo Pro Tabletop Edition for iPad Pro.
 
-## How to Play on iPad
+## How to Install Offline (iPad, iPhone, Android & Desktop)
 
-1. Open the GitHub Pages link in Safari on your iPad.
-2. Tap the **Share** button in Safari (square with arrow up).
-3. Select **"Add to Home Screen"**.
-4. Open the game from your Home Screen to launch in full-screen standalone mode.
+- **iPad & iPhone (Safari):** Open the GitHub Pages link in Safari -> tap **Share** -> **"Add to Home Screen"** -> tap **Add**.
+- **Android / Samsung Galaxy (Chrome or Samsung Internet):** Open the GitHub Pages link -> tap the browser menu (**⋮** or **☰**) -> tap **"Add to Home screen"** / **"Install app"**.
+- **Mac & Windows Laptops (Chrome / Edge / Safari):** Click the **Install** icon in the address bar (or **File -> Add to Dock** in macOS Safari).
