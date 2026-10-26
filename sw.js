@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ludo-pro-v2.3-ergonomic';
+const CACHE_NAME = 'ludo-pro-v3.0-online';
 
 const ASSETS = [
   './',
@@ -38,23 +38,44 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
+  const url = new URL(event.request.url);
+  // Always bypass Service Worker cache for real-time Online Multiplayer API & WebSockets
+  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/ws/')) {
+    return;
+  }
+
+  // For navigation requests (including ?room=XXXXXX invite links), use network-first
+  // with instant offline fallback to cached index.html so invite links always get fresh shell
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const clone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put('./index.html', clone);
+          });
+        }
+        return networkResponse;
+      }).catch(() => {
+        return caches.match('./index.html') || caches.match('./');
+      })
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        // Return cached asset immediately, but fetch update in background (stale-while-revalidate)
         fetch(event.request).then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             caches.open(CACHE_NAME).then((cache) => {
               cache.put(event.request, networkResponse);
             });
           }
-        }).catch(() => {
-          // Offline, ignore network fetch failure
-        });
+        }).catch(() => {});
         return cachedResponse;
       }
 
-      // Not in cache, try network and cache it
       return fetch(event.request).then((networkResponse) => {
         if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
           return networkResponse;
@@ -64,11 +85,6 @@ self.addEventListener('fetch', (event) => {
           cache.put(event.request, responseToCache);
         });
         return networkResponse;
-      }).catch(() => {
-        // Fallback to cached index.html for navigation requests
-        if (event.request.mode === 'navigate') {
-          return caches.match('./index.html') || caches.match('./');
-        }
       });
     })
   );

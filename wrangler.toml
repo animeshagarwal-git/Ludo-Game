@@ -1,0 +1,27 @@
+name = "ludo-game"
+main = "worker/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+[assets]
+directory = "."
+binding = "ASSETS"
+run_worker_first = ["/api/*", "/ws/*"]
+
+[durable_objects]
+bindings = [
+  { name = "LUDO_ROOMS", class_name = "LudoRoom" }
+]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["LudoRoom"]
+
+[env.dev]
+name = "ludo-game-dev"
+workers_dev = true
+
+[env.dev.durable_objects]
+bindings = [
+  { name = "LUDO_ROOMS", class_name = "LudoRoom" }
+]

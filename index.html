@@ -314,6 +314,24 @@
       color: #fde68a;
     }
 
+    .role-tag.role-you {
+      background: rgba(16, 185, 129, 0.26);
+      border-color: rgba(52, 211, 153, 0.68);
+      color: #a7f3d0;
+    }
+
+    .role-tag.role-online {
+      background: rgba(56, 189, 248, 0.22);
+      border-color: rgba(56, 189, 248, 0.55);
+      color: #bae6fd;
+    }
+
+    .role-tag.role-away {
+      background: rgba(245, 158, 11, 0.22);
+      border-color: rgba(251, 191, 36, 0.55);
+      color: #fde68a;
+    }
+
     .player-sub {
       font-size: 0.72rem;
       font-weight: 600;
@@ -1166,6 +1184,252 @@
       line-height: 1.4;
     }
 
+    /* Setup Mode Switcher (Local Play vs Online Multiplayer) */
+    .mode-switch-bar {
+      display: inline-flex;
+      background: rgba(7, 10, 18, 0.82);
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      border-radius: 14px;
+      padding: 4px;
+      gap: 4px;
+      margin-bottom: 14px;
+      max-width: 100%;
+    }
+
+    .mode-switch-btn {
+      min-height: 38px;
+      padding: 0 18px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      touch-action: manipulation;
+      transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+    }
+
+    .mode-switch-btn.selected {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.32), rgba(37, 99, 235, 0.22));
+      border-color: rgba(96, 165, 250, 0.68);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+    }
+
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      flex-shrink: 0;
+    }
+
+    .online-dot.warn {
+      background: #f59e0b;
+      box-shadow: 0 0 8px #f59e0b;
+    }
+
+    /* Online Entry & Live Lobby Styles */
+    .online-entry-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .online-field-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 14px;
+      padding: 8px 12px;
+    }
+
+    .online-field-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .online-text-input {
+      flex: 1 1 auto;
+      min-width: 0;
+      background: rgba(7, 10, 18, 0.78);
+      border: 1px solid rgba(148, 163, 184, 0.26);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      outline: none;
+      transition: border-color 0.18s ease;
+    }
+
+    .online-text-input:focus {
+      border-color: #60a5fa;
+    }
+
+    .online-text-input.code-input {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      text-align: center;
+    }
+
+    .online-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .online-action-card {
+      background: rgba(15, 23, 42, 0.74);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 11px;
+    }
+
+    .online-card-title {
+      font-size: 0.86rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .online-card-desc {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      margin: 3px 0 0;
+    }
+
+    .join-row {
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    .session-invite-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 10px 14px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.42), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(96, 165, 250, 0.42);
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .session-code-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .session-code-label {
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #93c5fd;
+      display: block;
+    }
+
+    .session-code-value {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 1.2rem;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      color: #ffffff;
+    }
+
+    .invite-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mini-action-btn {
+      min-height: 36px;
+      padding: 0 13px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      background: rgba(15, 23, 42, 0.85);
+      color: #f8fafc;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      touch-action: manipulation;
+      transition: transform 0.14s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .mini-action-btn.accent {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border-color: rgba(147, 197, 253, 0.55);
+      color: #ffffff;
+    }
+
+    .mini-action-btn:active {
+      transform: scale(0.96);
+    }
+
+    .seat-pill-online {
+      min-height: 36px;
+      padding: 0 12px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      background: rgba(15, 23, 42, 0.65);
+      color: var(--text-muted);
+    }
+
+    .seat-pill-online.ready {
+      border-color: rgba(52, 211, 153, 0.5);
+      background: rgba(16, 185, 129, 0.16);
+      color: #a7f3d0;
+    }
+
+    .seat-pill-online.waiting {
+      border-style: dashed;
+      border-color: rgba(251, 191, 36, 0.45);
+      color: #fde68a;
+    }
+
     /* Setup Top Controls: Player Count + Quick Presets */
     .setup-toolbar {
       display: flex;
@@ -1347,6 +1611,8 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
     }
 
     .human-ready-pill {
@@ -1407,6 +1673,17 @@
     .secondary-btn:active,
     .primary-btn:active {
       transform: scale(0.96);
+    }
+
+    .primary-btn:disabled,
+    .secondary-btn:disabled,
+    .count-tab:disabled,
+    .seg-btn:disabled,
+    .mini-action-btn:disabled {
+      opacity: 0.44;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
     }
 
     .hidden {
@@ -1681,6 +1958,26 @@
       .setup-toolbar {
         margin-bottom: 8px;
         gap: 8px;
+      }
+      .mode-switch-bar {
+        margin-bottom: 8px;
+      }
+      .mode-switch-btn {
+        min-height: 30px;
+        padding: 0 12px;
+        font-size: 0.7rem;
+      }
+      .session-invite-bar {
+        padding: 7px 10px;
+        margin-bottom: 8px;
+      }
+      .session-code-value {
+        font-size: 1rem;
+      }
+      .mini-action-btn {
+        min-height: 30px;
+        padding: 0 10px;
+        font-size: 0.68rem;
       }
       .count-tab,
       .preset-tab {
@@ -1987,6 +2284,34 @@
         gap: 8px;
         margin-bottom: 12px;
       }
+      .mode-switch-bar {
+        display: flex;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      .mode-switch-btn {
+        flex: 1 1 0;
+        padding: 0 8px;
+        font-size: 0.72rem;
+      }
+      .online-cards-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+      }
+      .join-row {
+        flex-direction: column;
+      }
+      .session-invite-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .invite-btn-group {
+        width: 100%;
+      }
+      .invite-btn-group .mini-action-btn {
+        flex: 1 1 0;
+        justify-content: center;
+      }
       .count-tabs,
       .preset-tabs {
         display: flex;
@@ -2046,7 +2371,7 @@
             <span class="player-orb"></span>
             <div class="player-name-wrap">
               <div class="player-name-row">
-                <span class="player-name">Red</span>
+                <span class="player-name" id="name-red">Red</span>
                 <span class="role-tag" id="role-red">Human</span>
               </div>
               <span class="player-sub" id="sub-red">Command I</span>
@@ -2098,7 +2423,7 @@
             <span class="player-orb"></span>
             <div class="player-name-wrap">
               <div class="player-name-row">
-                <span class="player-name">Blue</span>
+                <span class="player-name" id="name-blue">Blue</span>
                 <span class="role-tag" id="role-blue">Human</span>
               </div>
               <span class="player-sub" id="sub-blue">Command IV</span>
@@ -2195,7 +2520,7 @@
             <span class="player-orb"></span>
             <div class="player-name-wrap">
               <div class="player-name-row">
-                <span class="player-name">Green</span>
+                <span class="player-name" id="name-green">Green</span>
                 <span class="role-tag" id="role-green">Human</span>
               </div>
               <span class="player-sub" id="sub-green">Command II</span>
@@ -2247,7 +2572,7 @@
             <span class="player-orb"></span>
             <div class="player-name-wrap">
               <div class="player-name-row">
-                <span class="player-name">Yellow</span>
+                <span class="player-name" id="name-yellow">Yellow</span>
                 <span class="role-tag" id="role-yellow">Human</span>
               </div>
               <span class="player-sub" id="sub-yellow">Command III</span>
@@ -2295,43 +2620,142 @@
     </aside>
   </div>
 
-  <!-- IMMERSIVE SETUP MODAL (v2.3: Ergonomic Solo-Human Seating, Universal Responsive & AI) -->
+  <!-- IMMERSIVE SETUP MODAL (v3.0: Online Multiplayer Sessions + Local Play & AI) -->
   <dialog id="setup-modal" aria-labelledby="setup-title">
     <div class="modal-card">
       <div class="brand-emblem" aria-hidden="true">
         <span></span><span></span><span></span><span></span>
       </div>
-      <h1 class="modal-title" id="setup-title">CLASSIC LUDO <span style="font-size:0.85rem;font-weight:700;vertical-align:middle;padding:3px 9px;border-radius:999px;background:rgba(59,130,246,0.22);border:1px solid rgba(96,165,250,0.45);-webkit-text-fill-color:#bfdbfe;letter-spacing:0.05em;">v2.3</span></h1>
-      <p class="modal-subtitle">Choose 2, 3, or 4 players and configure each station as Human or Computer AI.</p>
+      <h1 class="modal-title" id="setup-title">CLASSIC LUDO <span style="font-size:0.85rem;font-weight:700;vertical-align:middle;padding:3px 9px;border-radius:999px;background:rgba(59,130,246,0.22);border:1px solid rgba(96,165,250,0.45);-webkit-text-fill-color:#bfdbfe;letter-spacing:0.05em;">v3.0</span></h1>
+      <p class="modal-subtitle" id="setup-subtitle">Play offline on one device or create an Online Session link to play across devices.</p>
 
-      <div class="setup-toolbar">
-        <div class="count-tabs" role="group" aria-label="Player Count">
-          <button type="button" class="count-tab selected" data-count="2">
-            <span>2 Players</span>
-            <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--yellow)"></i></span>
-          </button>
-          <button type="button" class="count-tab" data-count="3">
-            <span>3 Players</span>
-            <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--green)"></i><i style="background:var(--yellow)"></i></span>
-          </button>
-          <button type="button" class="count-tab" data-count="4">
-            <span>4 Players</span>
-            <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--green)"></i><i style="background:var(--yellow)"></i><i style="background:var(--blue)"></i></span>
-          </button>
+      <div class="mode-switch-bar" role="tablist" aria-label="Game Mode">
+        <button type="button" class="mode-switch-btn selected" id="mode-btn-local">Offline / Local</button>
+        <button type="button" class="mode-switch-btn" id="mode-btn-online">Online Multiplayer</button>
+      </div>
+
+      <!-- PANE 1: OFFLINE / LOCAL PLAY -->
+      <div id="local-setup-pane">
+        <div class="setup-toolbar">
+          <div class="count-tabs" role="group" aria-label="Player Count">
+            <button type="button" class="count-tab selected" data-count="2">
+              <span>2 Players</span>
+              <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--yellow)"></i></span>
+            </button>
+            <button type="button" class="count-tab" data-count="3">
+              <span>3 Players</span>
+              <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--green)"></i><i style="background:var(--yellow)"></i></span>
+            </button>
+            <button type="button" class="count-tab" data-count="4">
+              <span>4 Players</span>
+              <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--green)"></i><i style="background:var(--yellow)"></i><i style="background:var(--blue)"></i></span>
+            </button>
+          </div>
+
+          <div class="preset-tabs" role="group" aria-label="Opponent Presets">
+            <button type="button" class="preset-tab selected" id="preset-vs-ai">Human + AI</button>
+            <button type="button" class="preset-tab" id="preset-all-human">All Human</button>
+          </div>
         </div>
 
-        <div class="preset-tabs" role="group" aria-label="Opponent Presets">
-          <button type="button" class="preset-tab selected" id="preset-vs-ai">Human + AI</button>
-          <button type="button" class="preset-tab" id="preset-all-human">All Human</button>
+        <div class="seats-list" id="setup-seats-list"></div>
+        <div class="setup-footnote" id="setup-footnote">At least 1 station is always Human-controlled.</div>
+
+        <div class="modal-footer-row">
+          <button type="button" class="secondary-btn hidden" id="btn-resume-game">Resume Match</button>
+          <button type="button" class="primary-btn" id="btn-start-match">Start Match</button>
         </div>
       </div>
 
-      <div class="seats-list" id="setup-seats-list"></div>
-      <div class="setup-footnote" id="setup-footnote">At least 1 station is always Human-controlled.</div>
+      <!-- PANE 2: ONLINE MULTIPLAYER (CREATE / JOIN / LIVE LOBBY) -->
+      <div id="online-setup-pane" class="hidden">
+        <!-- B1: Create or Join Session -->
+        <div id="online-entry-view" class="online-entry-box">
+          <div class="online-field-row">
+            <label class="online-field-label" for="online-player-name">Your Name</label>
+            <input type="text" class="online-text-input" id="online-player-name" maxlength="16" placeholder="Enter your name (optional)" autocomplete="nickname" />
+          </div>
 
-      <div class="modal-footer-row">
-        <button type="button" class="secondary-btn hidden" id="btn-resume-game">Resume Match</button>
-        <button type="button" class="primary-btn" id="btn-start-match">Start Match</button>
+          <div class="online-cards-grid">
+            <div class="online-action-card">
+              <div>
+                <h2 class="online-card-title">Host New Session</h2>
+                <p class="online-card-desc">Generate a 6-character Session ID &amp; shareable invite link for 2, 3, or 4 players (plus optional AI).</p>
+              </div>
+              <div class="count-tabs" role="group" aria-label="Initial Online Player Count" style="justify-content:center;">
+                <button type="button" class="count-tab online-create-count selected" data-ocount="2">2P</button>
+                <button type="button" class="count-tab online-create-count" data-ocount="3">3P</button>
+                <button type="button" class="count-tab online-create-count" data-ocount="4">4P</button>
+              </div>
+              <button type="button" class="primary-btn" id="btn-create-online">Create Session</button>
+            </div>
+
+            <div class="online-action-card">
+              <div>
+                <h2 class="online-card-title">Join With Session ID</h2>
+                <p class="online-card-desc">Have a friend's 6-character Session ID? Enter it below (or open their invite link directly).</p>
+              </div>
+              <div class="join-row">
+                <input type="text" class="online-text-input code-input" id="online-join-code" maxlength="8" placeholder="K7M4P9" autocapitalize="characters" autocomplete="off" spellcheck="false" />
+                <button type="button" class="secondary-btn" id="btn-join-online" style="padding:10px 16px;">Join</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="setup-footnote" id="online-entry-status" style="text-align:center;">Works across iPad, iPhone, Android &amp; Laptops in real time.</div>
+          <div class="modal-footer-row" id="online-entry-footer">
+            <button type="button" class="secondary-btn hidden" id="btn-resume-from-online">Resume Match</button>
+          </div>
+        </div>
+
+        <!-- B2: Connected Live Room Lobby / Mid-Game Room Drawer -->
+        <div id="online-lobby-view" class="hidden">
+          <div class="session-invite-bar">
+            <div class="session-code-group">
+              <span class="online-dot" id="lobby-conn-dot"></span>
+              <div>
+                <span class="session-code-label" id="lobby-conn-label">Session ID · Live</span>
+                <span class="session-code-value" id="lobby-session-code">------</span>
+              </div>
+            </div>
+            <div class="invite-btn-group">
+              <button type="button" class="mini-action-btn" id="btn-copy-invite">Copy Link</button>
+              <button type="button" class="mini-action-btn accent" id="btn-share-invite">Share Invite Link</button>
+            </div>
+          </div>
+
+          <div class="setup-toolbar">
+            <div class="count-tabs" id="lobby-count-tabs" role="group" aria-label="Online Player Count">
+              <button type="button" class="count-tab lobby-count-tab selected" data-lcount="2">
+                <span>2 Players</span>
+                <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--yellow)"></i></span>
+              </button>
+              <button type="button" class="count-tab lobby-count-tab" data-lcount="3">
+                <span>3 Players</span>
+                <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--green)"></i><i style="background:var(--yellow)"></i></span>
+              </button>
+              <button type="button" class="count-tab lobby-count-tab" data-lcount="4">
+                <span>4 Players</span>
+                <span class="mini-dots"><i style="background:var(--red)"></i><i style="background:var(--green)"></i><i style="background:var(--yellow)"></i><i style="background:var(--blue)"></i></span>
+              </button>
+            </div>
+
+            <div class="online-field-row" style="padding:4px 10px;border-radius:12px;">
+              <label class="online-field-label" for="lobby-player-name">Name</label>
+              <input type="text" class="online-text-input" id="lobby-player-name" maxlength="16" placeholder="Your name" style="padding:5px 9px;max-width:145px;" />
+            </div>
+          </div>
+
+          <div class="seats-list" id="online-seats-list"></div>
+          <div class="setup-footnote" id="online-lobby-footnote">Share the invite link so friends can join open Online seats, or set any seat to AI.</div>
+
+          <div class="modal-footer-row">
+            <button type="button" class="secondary-btn" id="btn-leave-online">Leave Session</button>
+            <button type="button" class="secondary-btn hidden" id="btn-lobby-back-to-board">Back to Board</button>
+            <button type="button" class="secondary-btn hidden" id="btn-host-reset-lobby">Return All to Lobby</button>
+            <button type="button" class="primary-btn" id="btn-start-online-match">Start Online Match</button>
+          </div>
+        </div>
       </div>
     </div>
   </dialog>
@@ -2770,6 +3194,101 @@
 
       let rollSeqId = 1;
       let toastTimer = null;
+
+      function getOrCreateClientId() {
+        try {
+          const existing = window.localStorage && window.localStorage.getItem('ludo_online_cid');
+          if (existing) return existing;
+        } catch {}
+        let cid = '';
+        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+          cid = window.crypto.randomUUID();
+        } else {
+          cid = 'cid-' + Math.random().toString(36).slice(2, 11) + '-' + Date.now().toString(36);
+        }
+        try {
+          if (window.localStorage) window.localStorage.setItem('ludo_online_cid', cid);
+        } catch {}
+        return cid;
+      }
+
+      function getStoredPlayerName() {
+        try {
+          return (window.localStorage && window.localStorage.getItem('ludo_online_name')) || '';
+        } catch {
+          return '';
+        }
+      }
+
+      function saveStoredPlayerName(name) {
+        const cleaned = String(name || '').replace(/[\r\n\t<>]/g, ' ').trim().slice(0, 16);
+        try {
+          if (window.localStorage) window.localStorage.setItem('ludo_online_name', cleaned);
+        } catch {}
+        return cleaned;
+      }
+
+      function normalizeRoomCode(raw) {
+        return String(raw || '')
+          .toUpperCase()
+          .replace(/[^A-Z0-9]/g, '')
+          .slice(0, 10);
+      }
+
+      const online = {
+        active: false,
+        modeTab: 'local', // 'local' | 'online'
+        createCount: 2,
+        clientId: getOrCreateClientId(),
+        playerName: getStoredPlayerName(),
+        roomId: null,
+        ws: null,
+        connected: false,
+        connecting: false,
+        roomState: null,
+        lastSeq: 0,
+        matchIdLoaded: 0,
+        awaitingServer: false,
+        reconnectAttempts: 0,
+        reconnectTimer: null,
+        pingTimer: null,
+        nameDebounceTimer: null,
+        playbackChain: Promise.resolve(),
+        lobbyNote: ''
+      };
+
+      function getMyOnlineSeat() {
+        if (!online.active || !online.roomState || !online.roomState.seats) return null;
+        return ALL_COLORS.find(
+          (pid) => online.roomState.seats[pid] && online.roomState.seats[pid].clientId === online.clientId
+        ) || null;
+      }
+
+      function isOnlineHost() {
+        return Boolean(online.active && online.roomState && online.roomState.hostClientId === online.clientId);
+      }
+
+      function isMyHumanSeat(pid) {
+        if (isAIPlayer(pid)) return false;
+        if (!online.active) return true;
+        return pid === getMyOnlineSeat();
+      }
+
+      function getDisplayPlayerName(pid) {
+        if (online.active && online.roomState && online.roomState.seats && online.roomState.seats[pid]) {
+          const seat = online.roomState.seats[pid];
+          if (seat.mode === 'online' && seat.playerName) {
+            return seat.playerName;
+          }
+        }
+        return PLAYER_DEFS[pid].name;
+      }
+
+      function getBannerPlayerLabel(pid) {
+        const pDef = PLAYER_DEFS[pid];
+        const disp = getDisplayPlayerName(pid);
+        return disp === pDef.name ? pDef.name : `${disp} (${pDef.name})`;
+      }
 
       // When a match has exactly 1 Human player (solo Human vs AI), rotate the 4-fold
       // symmetric board & HUD stations once at match start so the Human's chosen color
@@ -3291,7 +3810,11 @@
         const groups = new Map();
         const activePid = state.started ? currentPlayerId() : null;
         const isHumanSelecting = Boolean(
-          activePid && !isAIPlayer(activePid) && state.phase === 'AWAITING_TOKEN'
+          activePid &&
+          isMyHumanSeat(activePid) &&
+          state.phase === 'AWAITING_TOKEN' &&
+          !state.busy &&
+          (!online.active || (online.connected && !online.awaitingServer))
         );
 
         state.activePlayers.forEach((pid) => {
@@ -3403,7 +3926,9 @@
         const bannerText = document.getElementById('banner-text');
         if (activePid) {
           const pDef = PLAYER_DEFS[activePid];
+          const activeLabel = getBannerPlayerLabel(activePid);
           const activeIsAI = isAIPlayer(activePid);
+          const activeIsMe = isMyHumanSeat(activePid);
           const aiTag = activeIsAI ? ` (${getPlayerDifficulty(activePid).toUpperCase()} AI)` : '';
           bannerDot.style.background = pDef.hex;
           bannerDot.style.boxShadow = `0 0 10px ${pDef.hex}`;
@@ -3411,24 +3936,30 @@
           if (state.phase === 'ROLLING') {
             if (activeIsAI) {
               bannerText.textContent = state.consecutiveSixes > 0
-                ? `${pDef.name}${aiTag}: 6 banked (${state.consecutiveSixes}/2) — Rolling again...`
-                : `${pDef.name}${aiTag} — Rolling dice...`;
+                ? `${activeLabel}${aiTag}: 6 banked (${state.consecutiveSixes}/2) — Rolling again...`
+                : `${activeLabel}${aiTag} — Rolling dice...`;
+            } else if (!activeIsMe) {
+              bannerText.textContent = state.consecutiveSixes > 0
+                ? `${activeLabel}: 6 banked (${state.consecutiveSixes}/2) — Rolling again...`
+                : `${activeLabel}'s Turn — Waiting for online roll...`;
             } else {
               bannerText.textContent = state.consecutiveSixes > 0
-                ? `${pDef.name}: 6 banked (${state.consecutiveSixes}/2) — Roll again!`
-                : `${pDef.name}'s Turn — Tap Dice to Roll`;
+                ? `${activeLabel}: 6 banked (${state.consecutiveSixes}/2) — Roll again!`
+                : `${activeLabel}'s Turn — Tap Dice to Roll`;
             }
           } else if (state.phase === 'AI_THINKING') {
             const cur = state.bank[state.bankCursor];
-            bannerText.textContent = `${pDef.name}${aiTag}: Evaluating move for [${cur ? cur.value : ''}]...`;
+            bannerText.textContent = `${activeLabel}${aiTag}: Evaluating move for [${cur ? cur.value : ''}]...`;
           } else if (state.phase === 'AWAITING_TOKEN') {
             const cur = state.bank[state.bankCursor];
-            bannerText.textContent = `${pDef.name}: Tap a glowing token to play [${cur ? cur.value : ''}]`;
+            bannerText.textContent = activeIsMe
+              ? `${activeLabel}: Tap a glowing token to play [${cur ? cur.value : ''}]`
+              : `${activeLabel}: Choosing token for [${cur ? cur.value : ''}]...`;
           } else if (state.phase === 'MOVING') {
             const cur = state.bank[state.bankCursor];
             bannerText.textContent = cur
-              ? `${pDef.name}${aiTag}: Playing banked roll [${cur.value}]`
-              : `${pDef.name}${aiTag}: Resolving turn...`;
+              ? `${activeLabel}${aiTag}: Playing banked roll [${cur.value}]`
+              : `${activeLabel}${aiTag}: Resolving turn...`;
           } else if (state.phase === 'GAME_OVER') {
             bannerText.textContent = 'Match Complete';
           }
@@ -3439,6 +3970,11 @@
           const isParticipant = state.activePlayers.includes(pid);
           card.classList.toggle('inactive-player', !isParticipant);
 
+          const nameEl = document.getElementById(`name-${pid}`);
+          if (nameEl) {
+            nameEl.textContent = getDisplayPlayerName(pid);
+          }
+
           // Dim inactive corner bases subtly on the board
           const svgBase = document.getElementById(`svg-base-${pid}`);
           if (svgBase) svgBase.style.opacity = isParticipant ? '1' : '0.42';
@@ -3446,6 +3982,7 @@
           if (!isParticipant) return;
 
           const pidIsAI = isAIPlayer(pid);
+          const pidIsMe = isMyHumanSeat(pid);
           const diff = getPlayerDifficulty(pid);
           const roleEl = document.getElementById(`role-${pid}`);
           if (roleEl) {
@@ -3454,6 +3991,18 @@
               const diffShort = diff === 'easy' ? 'EASY' : diff === 'medium' ? 'MED' : 'HARD';
               roleEl.textContent = `CPU · ${diffShort}`;
               roleEl.classList.add(`ai-${diff}`);
+            } else if (online.active && online.roomState && online.roomState.seats && online.roomState.seats[pid]) {
+              const oSeat = online.roomState.seats[pid];
+              if (pidIsMe) {
+                roleEl.textContent = 'YOU';
+                roleEl.classList.add('role-you');
+              } else if (!oSeat.connected) {
+                roleEl.textContent = 'AWAY';
+                roleEl.classList.add('role-away');
+              } else {
+                roleEl.textContent = 'ONLINE';
+                roleEl.classList.add('role-online');
+              }
             } else {
               roleEl.textContent = 'HUMAN';
             }
@@ -3503,26 +4052,32 @@
               } else if (state.consecutiveSixes === 1) {
                 phaseEl.textContent = '6 Banked · Extra Roll';
               } else {
-                phaseEl.textContent = pidIsAI ? 'CPU Rolling...' : 'Rolling Phase';
+                phaseEl.textContent = pidIsAI ? 'CPU Rolling...' : (!pidIsMe ? 'Online Turn' : 'Rolling Phase');
               }
             } else if (state.phase === 'AI_THINKING') {
               phaseEl.textContent = 'Thinking...';
             } else if (state.phase === 'AWAITING_TOKEN') {
-              phaseEl.textContent = 'Select Token';
+              phaseEl.textContent = pidIsMe ? 'Select Token' : 'Choosing Token';
             } else if (state.phase === 'MOVING') {
               phaseEl.textContent = 'Moving Phase';
             }
           }
 
-          // Dice button state (interactive for Human, status display for AI)
+          // Dice button state (interactive for local/your Human seat, status display for AI & remote online players)
           const diceBtn = document.getElementById(`dice-btn-${pid}`);
           const ctaMain = document.getElementById(`cta-main-${pid}`);
           const ctaSub = document.getElementById(`cta-sub-${pid}`);
-          const canHumanRollNow = isTurn && !pidIsAI && state.phase === 'ROLLING' && !state.busy;
+          const canHumanRollNow = Boolean(
+            isTurn &&
+            pidIsMe &&
+            state.phase === 'ROLLING' &&
+            !state.busy &&
+            (!online.active || (online.connected && !online.awaitingServer))
+          );
 
           diceBtn.disabled = !canHumanRollNow;
           diceBtn.classList.toggle('ready-to-roll', canHumanRollNow);
-          diceBtn.classList.toggle('ai-active', isTurn && pidIsAI);
+          diceBtn.classList.toggle('ai-active', isTurn && (pidIsAI || !pidIsMe));
 
           if (isTurn) {
             if (pidIsAI) {
@@ -3539,6 +4094,24 @@
                 ctaMain.textContent = 'Moving...';
                 ctaSub.textContent = 'FIFO sequence';
               }
+            } else if (!pidIsMe) {
+              const remoteAway = online.roomState && online.roomState.seats && online.roomState.seats[pid] && !online.roomState.seats[pid].connected;
+              if (state.phase === 'ROLLING') {
+                ctaMain.textContent = state.consecutiveSixes > 0 ? 'Rolling Again...' : 'Online Turn';
+                ctaSub.textContent = remoteAway
+                  ? 'Reconnecting...'
+                  : (state.consecutiveSixes > 0 ? `${state.consecutiveSixes} banked in tray` : 'Waiting for roll');
+              } else if (state.phase === 'AWAITING_TOKEN') {
+                const cur = state.bank[state.bankCursor];
+                ctaMain.textContent = `Choosing [${cur ? cur.value : ''}]`;
+                ctaSub.textContent = remoteAway ? 'Reconnecting...' : 'Selecting token';
+              } else {
+                ctaMain.textContent = 'Moving...';
+                ctaSub.textContent = 'FIFO sequence';
+              }
+            } else if (online.active && !online.connected) {
+              ctaMain.textContent = 'Reconnecting...';
+              ctaSub.textContent = 'Restoring live link';
             } else if (state.phase === 'ROLLING') {
               ctaMain.textContent = state.consecutiveSixes > 0 ? 'Roll Again!' : 'Tap to Roll';
               ctaSub.textContent = state.consecutiveSixes > 0
@@ -3608,6 +4181,9 @@
       }
 
       function initMatch(playerCount, seatConfigs = null) {
+        if (online.active) {
+          leaveOnlineRoom({ silent: true });
+        }
         state.matchGen += 1;
         notifySetupClosed();
         state.started = true;
@@ -3687,8 +4263,17 @@
 
       async function handleDiceTap(pid) {
         if (!state.started || state.busy) return;
-        if (isAIPlayer(pid)) return;
+        if (!isMyHumanSeat(pid)) return;
         if (pid !== currentPlayerId() || state.phase !== 'ROLLING') return;
+
+        if (online.active) {
+          if (!online.connected || online.awaitingServer) return;
+          online.awaitingServer = true;
+          renderHUDs();
+          sendOnlineMessage({ type: 'ROLL_DICE' });
+          return;
+        }
+
         await executeDiceRoll(pid);
       }
 
@@ -3874,9 +4459,18 @@
 
       async function handleTokenTap(uid) {
         if (!state.started || state.busy) return;
-        if (isAIPlayer(currentPlayerId())) return;
+        if (!isMyHumanSeat(currentPlayerId())) return;
         if (state.phase !== 'AWAITING_TOKEN') return;
         if (!state.validTokenUids.has(uid)) return;
+
+        if (online.active) {
+          if (!online.connected || online.awaitingServer) return;
+          online.awaitingServer = true;
+          renderTokens();
+          renderHUDs();
+          sendOnlineMessage({ type: 'SELECT_TOKEN', uid });
+          return;
+        }
 
         const token = state.tokens[uid];
         const currentRollObj = state.bank[state.bankCursor];
@@ -4060,6 +4654,33 @@
       const presetVsAiBtn = document.getElementById('preset-vs-ai');
       const presetAllHumanBtn = document.getElementById('preset-all-human');
 
+      const modeBtnLocal = document.getElementById('mode-btn-local');
+      const modeBtnOnline = document.getElementById('mode-btn-online');
+      const localSetupPane = document.getElementById('local-setup-pane');
+      const onlineSetupPane = document.getElementById('online-setup-pane');
+      const onlineEntryView = document.getElementById('online-entry-view');
+      const onlineLobbyView = document.getElementById('online-lobby-view');
+      const onlinePlayerNameInput = document.getElementById('online-player-name');
+      const lobbyPlayerNameInput = document.getElementById('lobby-player-name');
+      const onlineJoinCodeInput = document.getElementById('online-join-code');
+      const onlineEntryStatus = document.getElementById('online-entry-status');
+      const onlineSeatsList = document.getElementById('online-seats-list');
+      const onlineLobbyFootnote = document.getElementById('online-lobby-footnote');
+      const resumeFromOnlineBtn = document.getElementById('btn-resume-from-online');
+
+      function setSetupModeTab(tab) {
+        online.modeTab = tab === 'online' ? 'online' : 'local';
+        if (modeBtnLocal) modeBtnLocal.classList.toggle('selected', online.modeTab === 'local');
+        if (modeBtnOnline) modeBtnOnline.classList.toggle('selected', online.modeTab === 'online');
+        if (localSetupPane) localSetupPane.classList.toggle('hidden', online.modeTab !== 'local');
+        if (onlineSetupPane) onlineSetupPane.classList.toggle('hidden', online.modeTab !== 'online');
+        if (online.modeTab === 'online') {
+          renderOnlineSetupPane();
+        } else {
+          renderSetupModal();
+        }
+      }
+
       function ensureDraftHasHuman() {
         const roster = MODE_ROSTERS[setupDraft.playerCount];
         const hasHuman = roster.some((pid) => setupDraft.seats[pid].type === 'human');
@@ -4072,8 +4693,8 @@
         ensureDraftHasHuman();
         const roster = MODE_ROSTERS[setupDraft.playerCount];
 
-        // 1. Sync player count tabs (2 / 3 / 4)
-        document.querySelectorAll('.count-tab').forEach((tab) => {
+        // 1. Sync local player count tabs (2 / 3 / 4)
+        document.querySelectorAll('.count-tab[data-count]').forEach((tab) => {
           tab.classList.toggle('selected', Number(tab.dataset.count) === setupDraft.playerCount);
         });
 
@@ -4193,9 +4814,940 @@
         }
       }
 
-      function openSetupModal(allowCancel = false) {
-        resumeBtn.classList.toggle('hidden', !allowCancel);
-        renderSetupModal();
+      /* =====================================================================
+       * 8B. ONLINE MULTIPLAYER CLIENT, LIVE LOBBY & REAL-TIME EVENT SYNC
+       * ===================================================================== */
+      function setRoomQueryParam(roomId) {
+        try {
+          if (!window.history || !window.location) return;
+          const url = new URL(window.location.href);
+          if (roomId) {
+            url.searchParams.set('room', roomId);
+          } else {
+            url.searchParams.delete('room');
+          }
+          window.history.replaceState({}, '', url.toString());
+        } catch {}
+      }
+
+      function getInviteUrl(roomId) {
+        try {
+          const url = new URL(window.location.href);
+          url.search = '';
+          url.hash = '';
+          url.searchParams.set('room', roomId);
+          return url.toString();
+        } catch {
+          return `?room=${roomId}`;
+        }
+      }
+
+      async function copyTextToClipboard(text) {
+        if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+          return true;
+        }
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        return true;
+      }
+
+      function sendOnlineMessage(payload) {
+        if (!online.ws || online.ws.readyState !== 1) return false;
+        try {
+          online.ws.send(JSON.stringify(payload));
+          return true;
+        } catch {
+          return false;
+        }
+      }
+
+      function stopOnlineTimers() {
+        if (online.reconnectTimer) {
+          clearTimeout(online.reconnectTimer);
+          online.reconnectTimer = null;
+        }
+        if (online.pingTimer) {
+          clearInterval(online.pingTimer);
+          online.pingTimer = null;
+        }
+      }
+
+      function leaveOnlineRoom(opts = {}) {
+        const silent = Boolean(opts.silent);
+        stopOnlineTimers();
+        online.active = false;
+        online.roomId = null;
+        online.connected = false;
+        online.connecting = false;
+        online.roomState = null;
+        online.lastSeq = 0;
+        online.matchIdLoaded = 0;
+        online.awaitingServer = false;
+        online.reconnectAttempts = 0;
+        online.lobbyNote = '';
+
+        if (online.ws) {
+          const oldWs = online.ws;
+          online.ws = null;
+          try { oldWs.close(1000, 'Left session'); } catch {}
+        }
+
+        setRoomQueryParam(null);
+
+        if (!silent) {
+          state.matchGen += 1;
+          state.started = false;
+          state.phase = 'IDLE';
+          state.busy = false;
+          ALL_COLORS.forEach((pid) => {
+            const nameEl = document.getElementById(`name-${pid}`);
+            if (nameEl) nameEl.textContent = PLAYER_DEFS[pid].name;
+          });
+          if (victoryModal && victoryModal.open) victoryModal.close();
+          openSetupModal(false, 'online');
+          if (onlineEntryStatus) {
+            onlineEntryStatus.textContent = 'Left online session. Create a new session or join another code anytime.';
+          }
+        }
+      }
+
+      function scheduleOnlineReconnect() {
+        if (!online.active || !online.roomId || online.connected || online.connecting) return;
+        if (online.reconnectTimer) return;
+        const delay = Math.min(4000, 600 * Math.pow(1.6, online.reconnectAttempts));
+        online.reconnectAttempts += 1;
+        online.reconnectTimer = setTimeout(() => {
+          online.reconnectTimer = null;
+          if (online.active && online.roomId && !online.connected) {
+            openOnlineWebSocket(online.roomId);
+          }
+        }, delay);
+      }
+
+      function openOnlineWebSocket(roomId) {
+        if (typeof WebSocket === 'undefined') {
+          if (onlineEntryStatus) {
+            onlineEntryStatus.textContent = 'WebSockets are not supported in this browser.';
+          }
+          return;
+        }
+
+        if (online.ws) {
+          const prev = online.ws;
+          online.ws = null;
+          try { prev.close(); } catch {}
+        }
+
+        online.connecting = true;
+        online.connected = false;
+        renderOnlineSetupPane();
+        if (state.started) renderHUDs();
+
+        const proto = window.location && window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const host = (window.location && window.location.host) || 'localhost';
+        const params = new URLSearchParams();
+        params.set('clientId', online.clientId);
+        if (online.playerName) params.set('name', online.playerName);
+
+        const ws = new WebSocket(`${proto}//${host}/ws/${encodeURIComponent(roomId)}?${params.toString()}`);
+        online.ws = ws;
+
+        ws.addEventListener('open', () => {
+          if (online.ws !== ws) return;
+          online.connecting = false;
+          online.connected = true;
+          online.reconnectAttempts = 0;
+          online.awaitingServer = false;
+          if (online.pingTimer) clearInterval(online.pingTimer);
+          online.pingTimer = setInterval(() => {
+            sendOnlineMessage({ type: 'PING' });
+          }, 22000);
+          renderOnlineSetupPane();
+          if (state.started) {
+            renderTokens();
+            renderHUDs();
+          }
+        });
+
+        ws.addEventListener('message', (ev) => {
+          if (online.ws !== ws) return;
+          let msg;
+          try {
+            msg = JSON.parse(ev.data);
+          } catch {
+            return;
+          }
+
+          if (msg.type === 'PONG') return;
+
+          if (msg.type === 'ERROR') {
+            if (msg.code === 'ROOM_NOT_FOUND') {
+              leaveOnlineRoom({ silent: true });
+              state.started = false;
+              openSetupModal(false, 'online');
+              if (onlineEntryStatus) {
+                onlineEntryStatus.textContent = msg.message || 'Session ID not found. Check the code or host a new session.';
+              }
+            } else {
+              online.lobbyNote = msg.message || 'Online error.';
+              renderOnlineSetupPane();
+            }
+            return;
+          }
+
+          if (msg.type === 'LOBBY_NOTICE') {
+            online.lobbyNote = msg.message || '';
+            renderOnlineSetupPane();
+            return;
+          }
+
+          enqueueOnlineServerMessage(msg);
+        });
+
+        ws.addEventListener('close', (ev) => {
+          if (online.ws !== ws) return;
+          online.ws = null;
+          online.connecting = false;
+          online.connected = false;
+          online.awaitingServer = false;
+          if (online.pingTimer) {
+            clearInterval(online.pingTimer);
+            online.pingTimer = null;
+          }
+          if (ev && ev.code === 4004) return;
+          if (online.active && online.roomId) {
+            renderOnlineSetupPane();
+            if (state.started) {
+              renderTokens();
+              renderHUDs();
+            }
+            scheduleOnlineReconnect();
+          }
+        });
+
+        ws.addEventListener('error', () => {
+          // Handled via close event
+        });
+      }
+
+      async function createOnlineRoom() {
+        const createBtn = document.getElementById('btn-create-online');
+        if (onlinePlayerNameInput) {
+          online.playerName = saveStoredPlayerName(onlinePlayerNameInput.value);
+        }
+        if (onlineEntryStatus) {
+          onlineEntryStatus.textContent = 'Creating live session on server...';
+        }
+        if (createBtn) createBtn.disabled = true;
+
+        try {
+          const res = await fetch('/api/rooms', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ playerCount: online.createCount })
+          });
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+          }
+          const data = await res.json();
+          if (!data || !data.roomId) {
+            throw new Error('Missing roomId');
+          }
+          connectToOnlineRoom(data.roomId);
+        } catch {
+          if (onlineEntryStatus) {
+            onlineEntryStatus.textContent = 'Unable to reach the online server. Check your internet connection (or play Offline / Local anytime!).';
+          }
+        } finally {
+          if (createBtn) createBtn.disabled = false;
+        }
+      }
+
+      function connectToOnlineRoom(rawCode) {
+        const code = normalizeRoomCode(rawCode);
+        if (!code || code.length < 4) {
+          if (onlineEntryStatus) {
+            onlineEntryStatus.textContent = 'Please enter a valid 6-character Session ID.';
+          }
+          return;
+        }
+
+        if (onlinePlayerNameInput && onlinePlayerNameInput.value.trim()) {
+          online.playerName = saveStoredPlayerName(onlinePlayerNameInput.value);
+        }
+
+        stopOnlineTimers();
+        state.matchGen += 1;
+        state.started = false;
+        state.phase = 'IDLE';
+        state.busy = false;
+
+        online.active = true;
+        online.modeTab = 'online';
+        online.roomId = code;
+        online.roomState = null;
+        online.lastSeq = 0;
+        online.matchIdLoaded = 0;
+        online.awaitingServer = false;
+        online.reconnectAttempts = 0;
+        online.lobbyNote = '';
+
+        setRoomQueryParam(code);
+        openSetupModal(false, 'online');
+        openOnlineWebSocket(code);
+      }
+
+      function enqueueOnlineServerMessage(msg) {
+        online.playbackChain = online.playbackChain
+          .then(() => processOnlineServerMessage(msg))
+          .catch((err) => {
+            console.warn('Online sync error:', err);
+          });
+      }
+
+      function ensureOnlineMatchInitialized(snapshot) {
+        if (!snapshot || !snapshot.match) return;
+        const match = snapshot.match;
+        const mySeat = ALL_COLORS.find(
+          (pid) => snapshot.seats[pid] && snapshot.seats[pid].clientId === online.clientId
+        ) || null;
+        const desiredQ = mySeat ? (2 - PLAYER_DEFS[mySeat].order + 4) % 4 : 0;
+
+        if (state.started && online.matchIdLoaded === match.matchId) {
+          if (state.boardQuarterTurns !== desiredQ) {
+            applyBoardPerspective(desiredQ);
+          }
+          return;
+        }
+
+        state.matchGen += 1;
+        online.matchIdLoaded = match.matchId;
+        state.started = true;
+        state.activePlayers = [...match.activePlayers];
+
+        ALL_COLORS.forEach((pid) => {
+          if (snapshot.seats[pid]) {
+            state.playerConfigs[pid] = {
+              type: snapshot.seats[pid].mode === 'ai' ? 'ai' : 'human',
+              difficulty: snapshot.seats[pid].difficulty || 'medium'
+            };
+          }
+        });
+
+        // Every online player sees their own color anchored to Bottom-Right ('br') thumb zone!
+        applyBoardPerspective(desiredQ);
+
+        const layer = document.getElementById('tokens-layer');
+        layer.innerHTML = '';
+        state.tokens = {};
+
+        ALL_COLORS.forEach((pid) => {
+          const dieFace = document.getElementById(`die-face-${pid}`);
+          const initDie = (match.lastDieValues && match.lastDieValues[pid]) || 6;
+          if (dieFace) dieFace.dataset.val = String(initDie);
+          const diceBtn = document.getElementById(`dice-btn-${pid}`);
+          if (diceBtn) diceBtn.classList.remove('rolling');
+        });
+
+        state.activePlayers.forEach((pid) => {
+          for (let i = 0; i < 4; i++) {
+            const uid = `${pid}-${i}`;
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'token';
+            btn.dataset.player = pid;
+            btn.dataset.uid = uid;
+            btn.setAttribute('aria-label', `${PLAYER_DEFS[pid].name} token ${i + 1}`);
+            btn.innerHTML = `<span class="token-body"><span class="token-core"></span></span>`;
+            btn.addEventListener('click', () => handleTokenTap(uid));
+            layer.appendChild(btn);
+
+            state.tokens[uid] = {
+              uid,
+              player: pid,
+              index: i,
+              pos: match.tokens[uid] ?? 0,
+              el: btn,
+              isMoving: false
+            };
+          }
+        });
+
+        if (setupModal && setupModal.open) {
+          setupModal.close();
+          notifySetupClosed();
+        }
+        if (victoryModal && victoryModal.open) {
+          victoryModal.close();
+        }
+      }
+
+      async function playOnlineActions(actions, postState, gen) {
+        if (!actions || actions.length === 0) return;
+        state.busy = true;
+        state.validTokenUids.clear();
+        renderTokens();
+        renderHUDs();
+
+        for (let idx = 0; idx < actions.length; idx++) {
+          if (!online.active || gen !== state.matchGen) return;
+          const act = actions[idx];
+
+          if (act.type === 'ROLL') {
+            const pidIdx = state.activePlayers.indexOf(act.pid);
+            if (pidIdx !== -1) state.turnIndex = pidIdx;
+            state.phase = 'ROLLING';
+            renderHUDs();
+
+            const diceBtn = document.getElementById(`dice-btn-${act.pid}`);
+            const dieFace = document.getElementById(`die-face-${act.pid}`);
+            if (diceBtn) {
+              diceBtn.disabled = true;
+              diceBtn.classList.remove('ready-to-roll');
+              diceBtn.classList.add('rolling');
+            }
+            for (let f = 0; f < 5; f++) {
+              Sfx.rollTick();
+              if (dieFace) dieFace.dataset.val = String(((f + Math.floor(Math.random() * 6)) % 6) + 1);
+              await sleep(48);
+              if (!online.active || gen !== state.matchGen) return;
+            }
+            if (dieFace) dieFace.dataset.val = String(act.value);
+            if (diceBtn) diceBtn.classList.remove('rolling');
+
+            state.bank = (act.bank || []).map((b) => ({ ...b }));
+
+            if (act.outcome === 'BUST') {
+              state.consecutiveSixes = 3;
+              state.bonusRolls = 0;
+              Sfx.bust();
+              renderHUDs();
+              showToast('3× Six Bust! Turn Lost', 'danger', 1200);
+              await sleep(1050);
+            } else if (act.outcome === 'SIX_BANKED') {
+              state.consecutiveSixes = act.consecutiveSixes || 1;
+              Sfx.rollSix();
+              renderHUDs();
+              if (idx < actions.length - 1) {
+                await sleep(340);
+              }
+            } else {
+              state.consecutiveSixes = 0;
+              state.phase = 'MOVING';
+              Sfx.rollLand();
+              renderHUDs();
+              await sleep(220);
+            }
+          } else if (act.type === 'FORFEIT') {
+            state.bank = (act.bank || []).map((b) => ({ ...b }));
+            state.bonusRolls = 0;
+            Sfx.forfeit();
+            renderHUDs();
+            const seqVals = act.seqValues || [act.rollVal];
+            const isMulti = seqVals.length > 1;
+            showToast(
+              isMulti ? `Full Bank [${seqVals.join(', ')}] Unplayable — Forfeit!` : `No Valid Move for [${act.rollVal}]`,
+              'danger',
+              isMulti ? 1100 : 650
+            );
+            await sleep(isMulti ? 960 : 540);
+          } else if (act.type === 'AWAIT_CHOICE') {
+            state.bank = (act.bank || []).map((b) => ({ ...b }));
+            state.phase = 'AWAITING_TOKEN';
+            state.validTokenUids = new Set(act.validTokenUids || []);
+            renderTokens();
+            renderHUDs();
+          } else if (act.type === 'MOVE') {
+            const pidIdx = state.activePlayers.indexOf(act.pid);
+            if (pidIdx !== -1) state.turnIndex = pidIdx;
+
+            state.bank.forEach((b) => {
+              if (b.id === act.rollId) b.status = 'active';
+            });
+            state.validTokenUids.clear();
+
+            const token = state.tokens[act.uid];
+            if (act.aiThought) {
+              state.phase = 'AI_THINKING';
+              renderTokens();
+              renderHUDs();
+              await sleep(280);
+              if (!online.active || gen !== state.matchGen) return;
+              if (token) {
+                token.el.classList.add('ai-chosen');
+                await sleep(210);
+                token.el.classList.remove('ai-chosen');
+              }
+            }
+
+            state.phase = 'MOVING';
+            renderHUDs();
+
+            if (token) {
+              token.pos = act.fromPos;
+              token.isMoving = true;
+              if (act.fromPos === 0 && act.toPos === 1) {
+                token.pos = 1;
+                Sfx.exitBase();
+                triggerHopClass(token.el);
+                renderTokens();
+                await sleep(250);
+                if (!online.active || gen !== state.matchGen) return;
+              } else {
+                for (let p = act.fromPos + 1; p <= act.toPos; p++) {
+                  token.pos = p;
+                  Sfx.step();
+                  triggerHopClass(token.el);
+                  renderTokens();
+                  await sleep(155);
+                  if (!online.active || gen !== state.matchGen) return;
+                }
+              }
+              token.isMoving = false;
+            }
+
+            state.bank = (act.bank || []).map((b) => ({ ...b }));
+            state.bankCursor += 1;
+
+            if (act.toPos === 57) {
+              const [gr, gc] = PLAYER_DEFS[act.pid].goalAnchor;
+              spawnBoardBurst(gr, gc, PLAYER_DEFS[act.pid].hex);
+              renderTokens();
+              if (act.finishedPlayer) {
+                if (!state.finishedRankings.includes(act.pid)) {
+                  state.finishedRankings.push(act.pid);
+                }
+                Sfx.win();
+                renderHUDs();
+                await sleep(340);
+              } else if (act.homeGoalBonus) {
+                state.bonusRolls += 1;
+                Sfx.homeGoal();
+                showToast('Home Goal! +1 Bonus Roll', 'bonus', 950);
+                renderHUDs();
+                await sleep(320);
+              }
+            }
+
+            if (act.capturedVictims && act.capturedVictims.length > 0) {
+              const landedOuterIdx = outerIndexForPos(act.pid, act.toPos);
+              if (landedOuterIdx >= 0) {
+                const [vr, vc] = OUTER_TRACK[landedOuterIdx];
+                spawnBoardBurst(vr + 0.5, vc + 0.5, PLAYER_DEFS[act.pid].hex);
+              }
+              Sfx.capture();
+              state.bonusRolls += 1;
+              showToast('Captured! +1 Bonus Roll', 'bonus', 1000);
+              renderHUDs();
+
+              const victimTokens = act.capturedVictims
+                .map((v) => {
+                  const vt = state.tokens[v.uid];
+                  if (vt) vt.pos = v.fromPos;
+                  return vt;
+                })
+                .filter(Boolean);
+              await Promise.all(victimTokens.map((vt) => rewindTokenToBase(vt, gen)));
+              if (!online.active || gen !== state.matchGen) return;
+            }
+
+            renderTokens();
+            renderHUDs();
+            await sleep(120);
+          } else if (act.type === 'BONUS_TURN') {
+            showToast(`${getDisplayPlayerName(act.pid)} Bonus Roll!`, 'bonus', 950);
+            await sleep(320);
+          }
+        }
+
+        if (postState) {
+          syncFromOnlineRoomState(postState);
+        }
+      }
+
+      function syncFromOnlineRoomState(snapshot) {
+        if (!online.active || !snapshot) return;
+        online.roomState = snapshot;
+        online.roomId = snapshot.roomId || online.roomId;
+        online.lastSeq = Math.max(online.lastSeq, snapshot.seq || 0);
+        online.awaitingServer = false;
+
+        // Keep stored display name synced if server assigned/cleaned it
+        const mySeat = getMyOnlineSeat();
+        if (mySeat && snapshot.seats[mySeat] && snapshot.seats[mySeat].playerName && !online.playerName) {
+          online.playerName = snapshot.seats[mySeat].playerName;
+        }
+
+        if (snapshot.status === 'LOBBY' || !snapshot.match) {
+          state.started = false;
+          state.phase = 'IDLE';
+          state.busy = false;
+          online.matchIdLoaded = 0;
+          if (victoryModal && victoryModal.open) victoryModal.close();
+          openSetupModal(false, 'online');
+          renderOnlineSetupPane();
+          return;
+        }
+
+        ensureOnlineMatchInitialized(snapshot);
+        const match = snapshot.match;
+
+        ALL_COLORS.forEach((pid) => {
+          if (snapshot.seats[pid]) {
+            state.playerConfigs[pid] = {
+              type: snapshot.seats[pid].mode === 'ai' ? 'ai' : 'human',
+              difficulty: snapshot.seats[pid].difficulty || 'medium'
+            };
+          }
+          const dieFace = document.getElementById(`die-face-${pid}`);
+          if (dieFace && match.lastDieValues && match.lastDieValues[pid]) {
+            dieFace.dataset.val = String(match.lastDieValues[pid]);
+          }
+        });
+
+        state.activePlayers = [...match.activePlayers];
+        state.finishedRankings = [...(match.finishedRankings || [])];
+        state.turnIndex = match.turnIndex;
+        state.consecutiveSixes = match.consecutiveSixes || 0;
+        state.bonusRolls = match.bonusRolls || 0;
+        state.bank = (match.bank || []).map((b) => ({ ...b }));
+        state.bankCursor = match.bankCursor || 0;
+        state.validTokenUids = new Set(match.validTokenUids || []);
+
+        if (snapshot.status === 'GAME_OVER' || match.phase === 'GAME_OVER' || match.phase === 'PODIUM_DECISION') {
+          state.phase = 'GAME_OVER';
+        } else if (match.phase === 'AI_TURN') {
+          state.phase = 'ROLLING';
+        } else {
+          state.phase = match.phase;
+        }
+
+        Object.keys(state.tokens).forEach((uid) => {
+          if (Object.prototype.hasOwnProperty.call(match.tokens, uid)) {
+            state.tokens[uid].pos = match.tokens[uid];
+            state.tokens[uid].isMoving = false;
+          }
+        });
+
+        state.busy = false;
+        renderTokens();
+        renderHUDs();
+        renderOnlineSetupPane();
+
+        if (match.phase === 'PODIUM_DECISION') {
+          presentVictoryModal(match.podiumWinnerPid || state.finishedRankings[0] || state.activePlayers[0]);
+        } else if (snapshot.status === 'GAME_OVER' || match.phase === 'GAME_OVER') {
+          presentVictoryModal(state.finishedRankings[0] || state.activePlayers[0]);
+        } else if (victoryModal && victoryModal.open) {
+          victoryModal.close();
+        }
+      }
+
+      async function processOnlineServerMessage(msg) {
+        if (!online.active) return;
+
+        if (msg.type === 'WELCOME') {
+          online.lobbyNote = '';
+          syncFromOnlineRoomState(msg.state);
+          return;
+        }
+
+        if (msg.type === 'ROOM_STATE') {
+          syncFromOnlineRoomState(msg.state);
+          return;
+        }
+
+        if (msg.type === 'EVENT') {
+          online.lobbyNote = '';
+          if (msg.kind === 'MATCH_STARTED') {
+            online.matchIdLoaded = 0; // Force clean match init
+            syncFromOnlineRoomState(msg.state);
+            const starter = currentPlayerId();
+            if (starter) {
+              showToast(`${getDisplayPlayerName(starter)} Starts!`, 'normal', 1000);
+            }
+            return;
+          }
+
+          if (msg.kind === 'RETURNED_TO_LOBBY') {
+            syncFromOnlineRoomState(msg.state);
+            return;
+          }
+
+          if (msg.kind === 'PODIUM_CONTINUED') {
+            if (victoryModal && victoryModal.open) victoryModal.close();
+            syncFromOnlineRoomState(msg.state);
+            return;
+          }
+
+          if (msg.state && msg.state.match) {
+            ensureOnlineMatchInitialized(msg.state);
+          }
+          const gen = state.matchGen;
+          await playOnlineActions(msg.actions || [], msg.state, gen);
+        }
+      }
+
+      function renderOnlineSetupPane() {
+        if (!onlineSetupPane) return;
+        const inSession = Boolean(online.active && online.roomId);
+
+        if (onlineEntryView) onlineEntryView.classList.toggle('hidden', inSession);
+        if (onlineLobbyView) onlineLobbyView.classList.toggle('hidden', !inSession);
+
+        // Entry View (Create / Join)
+        if (!inSession) {
+          if (onlinePlayerNameInput && document.activeElement !== onlinePlayerNameInput) {
+            onlinePlayerNameInput.value = online.playerName || '';
+          }
+          document.querySelectorAll('.online-create-count').forEach((btn) => {
+            btn.classList.toggle('selected', Number(btn.dataset.ocount) === online.createCount);
+          });
+          if (resumeFromOnlineBtn) {
+            resumeFromOnlineBtn.classList.toggle('hidden', !state.started);
+          }
+          return;
+        }
+
+        // Connected / Connecting Live Room View
+        const codeEl = document.getElementById('lobby-session-code');
+        const connDot = document.getElementById('lobby-conn-dot');
+        const connLabel = document.getElementById('lobby-conn-label');
+        if (codeEl) codeEl.textContent = online.roomId || '------';
+
+        const rs = online.roomState;
+        const isHost = isOnlineHost();
+        const inLobby = !rs || rs.status === 'LOBBY';
+
+        if (connDot) {
+          connDot.classList.toggle('warn', !online.connected);
+        }
+        if (connLabel) {
+          if (!online.connected) {
+            connLabel.textContent = online.connecting ? 'Session ID · Connecting...' : 'Session ID · Reconnecting...';
+          } else {
+            connLabel.textContent = `Session ID · ${rs ? rs.connectedCount : 1} Online${isHost ? ' · Host' : ''}`;
+          }
+        }
+
+        if (lobbyPlayerNameInput && document.activeElement !== lobbyPlayerNameInput) {
+          const mySeat = getMyOnlineSeat();
+          const serverName = (mySeat && rs && rs.seats[mySeat] && rs.seats[mySeat].playerName) || online.playerName || '';
+          lobbyPlayerNameInput.value = serverName;
+        }
+
+        const countVal = rs ? rs.playerCount : online.createCount;
+        document.querySelectorAll('.lobby-count-tab').forEach((btn) => {
+          btn.classList.toggle('selected', Number(btn.dataset.lcount) === countVal);
+          btn.disabled = !online.connected || !isHost || !inLobby;
+        });
+
+        // Seat rows
+        if (onlineSeatsList) {
+          onlineSeatsList.innerHTML = '';
+          if (!rs) {
+            const loadingRow = document.createElement('div');
+            loadingRow.className = 'seat-row';
+            loadingRow.innerHTML = `<div class="seat-identity"><span class="seat-color-name">Connecting to session ${online.roomId}...</span></div>`;
+            onlineSeatsList.appendChild(loadingRow);
+          } else {
+            const roster = rs.roster || MODE_ROSTERS[rs.playerCount];
+            const mySeat = getMyOnlineSeat();
+            const myQ = mySeat ? (2 - PLAYER_DEFS[mySeat].order + 4) % 4 : 0;
+
+            roster.forEach((pid) => {
+              const pDef = PLAYER_DEFS[pid];
+              const seat = rs.seats[pid];
+              const slot = CORNER_SLOTS[(pDef.order + myQ) % 4];
+              const isMine = pid === mySeat;
+              const cornerHint = isMine
+                ? 'Your Color · Bottom-Right Thumb Zone'
+                : slot.label;
+
+              const row = document.createElement('div');
+              row.className = 'seat-row';
+              row.dataset.seat = pid;
+
+              const identity = document.createElement('div');
+              identity.className = 'seat-identity';
+              identity.innerHTML = `
+                <span class="seat-dot" style="background:${pDef.hex};box-shadow:0 0 10px ${pDef.hex}"></span>
+                <span class="seat-label-group">
+                  <span class="seat-color-name">${pDef.name}</span>
+                  <span class="seat-corner-hint">${cornerHint}</span>
+                </span>
+              `;
+
+              // Center: Online Human vs Computer AI toggle
+              const roleGroup = document.createElement('div');
+              roleGroup.className = 'seg-group';
+
+              const onlineBtn = document.createElement('button');
+              onlineBtn.type = 'button';
+              onlineBtn.className = `seg-btn${seat.mode === 'online' ? ' active' : ''}`;
+              onlineBtn.textContent = 'Online';
+              onlineBtn.disabled = !online.connected || !isHost || !inLobby;
+              onlineBtn.addEventListener('click', () => {
+                online.lobbyNote = '';
+                sendOnlineMessage({ type: 'SET_SEAT_CONFIG', seat: pid, mode: 'online' });
+              });
+
+              const aiBtn = document.createElement('button');
+              aiBtn.type = 'button';
+              aiBtn.className = `seg-btn${seat.mode === 'ai' ? ' active' : ''}`;
+              aiBtn.textContent = 'AI';
+              aiBtn.disabled = !online.connected || !isHost || !inLobby;
+              aiBtn.addEventListener('click', () => {
+                online.lobbyNote = '';
+                sendOnlineMessage({ type: 'SET_SEAT_CONFIG', seat: pid, mode: 'ai', difficulty: seat.difficulty || 'medium' });
+              });
+
+              roleGroup.appendChild(onlineBtn);
+              roleGroup.appendChild(aiBtn);
+
+              // Right: AI difficulty OR Online occupant badge / seat claim / mid-game AI rescue
+              const rightSlot = document.createElement('div');
+              rightSlot.className = 'seat-right-slot';
+
+              if (seat.mode === 'ai') {
+                const diffGroup = document.createElement('div');
+                diffGroup.className = 'seg-group';
+                [
+                  { id: 'easy', label: 'Easy' },
+                  { id: 'medium', label: 'Medium' },
+                  { id: 'hard', label: 'Hard' }
+                ].forEach((lvl) => {
+                  const dBtn = document.createElement('button');
+                  dBtn.type = 'button';
+                  dBtn.className = `seg-btn diff-${lvl.id}${seat.difficulty === lvl.id ? ' active' : ''}`;
+                  dBtn.textContent = lvl.label;
+                  dBtn.disabled = !online.connected || !isHost || !inLobby;
+                  dBtn.addEventListener('click', () => {
+                    sendOnlineMessage({ type: 'SET_SEAT_CONFIG', seat: pid, difficulty: lvl.id });
+                  });
+                  diffGroup.appendChild(dBtn);
+                });
+                rightSlot.appendChild(diffGroup);
+              } else if (seat.clientId) {
+                const pill = document.createElement('div');
+                const pName = seat.playerName || pDef.name;
+                const hostBadge = seat.clientId === rs.hostClientId ? ' · Host' : '';
+                if (isMine) {
+                  pill.className = 'seat-pill-online ready';
+                  pill.textContent = `${pName} (You${hostBadge})`;
+                } else if (seat.connected) {
+                  pill.className = 'seat-pill-online ready';
+                  pill.textContent = `${pName}${hostBadge} · Ready`;
+                } else {
+                  pill.className = 'seat-pill-online waiting';
+                  pill.textContent = `${pName} · Away`;
+                }
+                rightSlot.appendChild(pill);
+
+                // Mid-game Host rescue: if a remote player disconnected during a match, Host can hand seat to AI
+                if (!inLobby && isHost && !isMine && !seat.connected) {
+                  const rescueBtn = document.createElement('button');
+                  rescueBtn.type = 'button';
+                  rescueBtn.className = 'mini-action-btn';
+                  rescueBtn.textContent = 'Switch to AI';
+                  rescueBtn.addEventListener('click', () => {
+                    sendOnlineMessage({ type: 'PROMOTE_SEAT_TO_AI', seat: pid, difficulty: 'medium' });
+                  });
+                  rightSlot.appendChild(rescueBtn);
+                }
+              } else {
+                const waitPill = document.createElement('div');
+                waitPill.className = 'seat-pill-online waiting';
+                waitPill.textContent = 'Waiting for Link...';
+                rightSlot.appendChild(waitPill);
+
+                if (inLobby && online.connected) {
+                  const claimBtn = document.createElement('button');
+                  claimBtn.type = 'button';
+                  claimBtn.className = 'mini-action-btn';
+                  claimBtn.textContent = 'Take Seat';
+                  claimBtn.addEventListener('click', () => {
+                    sendOnlineMessage({ type: 'CLAIM_SEAT', seat: pid });
+                  });
+                  rightSlot.appendChild(claimBtn);
+                }
+              }
+
+              row.appendChild(identity);
+              row.appendChild(roleGroup);
+              row.appendChild(rightSlot);
+              onlineSeatsList.appendChild(row);
+            });
+          }
+        }
+
+        // Lobby Footnote & Footer Action Buttons
+        const startOnlineBtn = document.getElementById('btn-start-online-match');
+        const backToBoardBtn = document.getElementById('btn-lobby-back-to-board');
+        const resetLobbyBtn = document.getElementById('btn-host-reset-lobby');
+
+        if (!rs) {
+          if (onlineLobbyFootnote) onlineLobbyFootnote.textContent = 'Establishing real-time WebSocket connection...';
+          if (startOnlineBtn) startOnlineBtn.disabled = true;
+          if (backToBoardBtn) backToBoardBtn.classList.add('hidden');
+          if (resetLobbyBtn) resetLobbyBtn.classList.add('hidden');
+          return;
+        }
+
+        const roster = rs.roster || MODE_ROSTERS[rs.playerCount];
+        const openOnlineCount = roster.filter((pid) => rs.seats[pid].mode === 'online' && !rs.seats[pid].clientId).length;
+        const aiCount = roster.filter((pid) => rs.seats[pid].mode === 'ai').length;
+        const humanCount = roster.length - aiCount;
+
+        if (inLobby) {
+          if (backToBoardBtn) backToBoardBtn.classList.add('hidden');
+          if (resetLobbyBtn) resetLobbyBtn.classList.add('hidden');
+          if (startOnlineBtn) {
+            startOnlineBtn.classList.remove('hidden');
+            startOnlineBtn.disabled = !online.connected || !isHost || openOnlineCount > 0 || humanCount === 0;
+            startOnlineBtn.textContent = isHost
+              ? (openOnlineCount > 0 ? `Waiting for ${openOnlineCount} Friend${openOnlineCount > 1 ? 's' : ''}...` : 'Start Online Match')
+              : 'Waiting for Host to Start...';
+          }
+
+          if (onlineLobbyFootnote) {
+            if (online.lobbyNote) {
+              onlineLobbyFootnote.textContent = online.lobbyNote;
+            } else if (openOnlineCount > 0) {
+              onlineLobbyFootnote.textContent = isHost
+                ? `Share the invite link for ${openOnlineCount} open seat${openOnlineCount > 1 ? 's' : ''}, or tap "AI" on empty seats to fill with Computer AI.`
+                : `Connected! Waiting for ${openOnlineCount} more player${openOnlineCount > 1 ? 's' : ''} (or Host) to start.`;
+            } else {
+              onlineLobbyFootnote.textContent = isHost
+                ? `All ${roster.length} seats ready (${humanCount} Online + ${aiCount} AI) — Tap "Start Online Match"!`
+                : `All ${roster.length} seats ready — Waiting for Host to start the match!`;
+            }
+          }
+        } else {
+          if (startOnlineBtn) startOnlineBtn.classList.add('hidden');
+          if (backToBoardBtn) backToBoardBtn.classList.toggle('hidden', !state.started);
+          if (resetLobbyBtn) resetLobbyBtn.classList.toggle('hidden', !isHost);
+          if (onlineLobbyFootnote) {
+            onlineLobbyFootnote.textContent = online.lobbyNote || (
+              isHost
+                ? 'Live match in progress. Share the link to reconnect or return everyone to the lobby for a new setup.'
+                : 'Live match in progress. Tap "Back to Board" to return to the game.'
+            );
+          }
+        }
+      }
+
+      function openSetupModal(allowCancel = false, preferredTab = null) {
+        resumeBtn.classList.toggle('hidden', !allowCancel || online.active);
+        const targetTab = preferredTab || (online.active ? 'online' : online.modeTab);
+        setSetupModeTab(targetTab);
         if (!setupModal.open) {
           setupModal.showModal();
         }
@@ -4205,27 +5757,44 @@
         const titleEl = document.getElementById('victory-title');
         const subEl = document.getElementById('victory-subtitle');
         const continueBtn = document.getElementById('btn-continue-podium');
+        const playAgainBtn = document.getElementById('btn-play-again');
 
         const unfinished = state.activePlayers.filter((p) => !isPlayerFinished(p));
-        const pDef = PLAYER_DEFS[winnerPid];
+        const winnerName = getDisplayPlayerName(winnerPid);
         const winnerRole = isAIPlayer(winnerPid) ? ` (${getPlayerDifficulty(winnerPid).toUpperCase()} AI)` : '';
 
-        if (state.finishedRankings.length === 1 && unfinished.length >= 2) {
-          titleEl.textContent = `${pDef.name.toUpperCase()} CLAIMS 1ST!`;
-          subEl.textContent = `${pDef.name}${winnerRole} brought all 4 tokens home. Start a new match or continue for 2nd & 3rd place.`;
-          continueBtn.classList.remove('hidden');
+        const isPodiumPause = online.active
+          ? Boolean(online.roomState && online.roomState.match && online.roomState.match.phase === 'PODIUM_DECISION')
+          : (state.finishedRankings.length === 1 && unfinished.length >= 2);
+
+        if (isPodiumPause) {
+          titleEl.textContent = `${winnerName.toUpperCase()} CLAIMS 1ST!`;
+          if (online.active && !isOnlineHost()) {
+            subEl.textContent = `${winnerName}${winnerRole} brought all 4 tokens home! Waiting for Host to continue for podium or start a rematch.`;
+            continueBtn.classList.add('hidden');
+            if (playAgainBtn) playAgainBtn.textContent = 'Session Lobby';
+          } else {
+            subEl.textContent = `${winnerName}${winnerRole} brought all 4 tokens home. Start a new match or continue for 2nd & 3rd place.`;
+            continueBtn.classList.remove('hidden');
+            if (playAgainBtn) playAgainBtn.textContent = online.active ? 'Return All to Lobby' : 'New Match';
+          }
         } else {
-          const champPid = state.finishedRankings[0];
-          const champ = PLAYER_DEFS[champPid];
-          titleEl.textContent = `${champ.name.toUpperCase()} VICTORY!`;
+          const champPid = state.finishedRankings[0] || winnerPid;
+          const champName = getDisplayPlayerName(champPid);
+          titleEl.textContent = `${champName.toUpperCase()} VICTORY!`;
           const summary = state.finishedRankings
             .map((pid, idx) => {
               const tag = isAIPlayer(pid) ? ` (${getPlayerDifficulty(pid).toUpperCase()} AI)` : '';
-              return `#${idx + 1} ${PLAYER_DEFS[pid].name}${tag}`;
+              return `#${idx + 1} ${getDisplayPlayerName(pid)}${tag}`;
             })
             .join('  ·  ');
-          subEl.textContent = summary || `${champ.name} brought all 4 tokens safely to the center goal.`;
+          subEl.textContent = summary || `${champName} brought all 4 tokens safely to the center goal.`;
           continueBtn.classList.add('hidden');
+          if (playAgainBtn) {
+            playAgainBtn.textContent = online.active
+              ? (isOnlineHost() ? 'Rematch in Lobby' : 'Session Lobby')
+              : 'New Match';
+          }
         }
 
         state.phase = 'GAME_OVER';
@@ -4250,12 +5819,152 @@
         e.preventDefault();
       });
 
-      document.querySelectorAll('.count-tab').forEach((btn) => {
+      if (modeBtnLocal) {
+        modeBtnLocal.addEventListener('click', () => setSetupModeTab('local'));
+      }
+      if (modeBtnOnline) {
+        modeBtnOnline.addEventListener('click', () => setSetupModeTab('online'));
+      }
+
+      document.querySelectorAll('.count-tab[data-count]').forEach((btn) => {
         btn.addEventListener('click', () => {
           setupDraft.playerCount = Number(btn.dataset.count);
           renderSetupModal();
         });
       });
+
+      document.querySelectorAll('.online-create-count').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          online.createCount = Number(btn.dataset.ocount);
+          renderOnlineSetupPane();
+        });
+      });
+
+      document.querySelectorAll('.lobby-count-tab').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const count = Number(btn.dataset.lcount);
+          sendOnlineMessage({ type: 'SET_PLAYER_COUNT', count });
+        });
+      });
+
+      if (onlinePlayerNameInput) {
+        onlinePlayerNameInput.addEventListener('input', () => {
+          online.playerName = saveStoredPlayerName(onlinePlayerNameInput.value);
+        });
+      }
+
+      if (lobbyPlayerNameInput) {
+        lobbyPlayerNameInput.addEventListener('input', () => {
+          const cleaned = saveStoredPlayerName(lobbyPlayerNameInput.value);
+          online.playerName = cleaned;
+          if (online.nameDebounceTimer) clearTimeout(online.nameDebounceTimer);
+          online.nameDebounceTimer = setTimeout(() => {
+            if (cleaned) sendOnlineMessage({ type: 'SET_NAME', name: cleaned });
+          }, 300);
+        });
+      }
+
+      const createOnlineBtn = document.getElementById('btn-create-online');
+      if (createOnlineBtn) {
+        createOnlineBtn.addEventListener('click', () => {
+          createOnlineRoom();
+        });
+      }
+
+      const joinOnlineBtn = document.getElementById('btn-join-online');
+      if (joinOnlineBtn) {
+        joinOnlineBtn.addEventListener('click', () => {
+          connectToOnlineRoom(onlineJoinCodeInput ? onlineJoinCodeInput.value : '');
+        });
+      }
+
+      if (onlineJoinCodeInput) {
+        onlineJoinCodeInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            connectToOnlineRoom(onlineJoinCodeInput.value);
+          }
+        });
+      }
+
+      const copyInviteBtn = document.getElementById('btn-copy-invite');
+      if (copyInviteBtn) {
+        copyInviteBtn.addEventListener('click', async () => {
+          if (!online.roomId) return;
+          const inviteUrl = getInviteUrl(online.roomId);
+          try {
+            await copyTextToClipboard(inviteUrl);
+            copyInviteBtn.textContent = 'Copied!';
+            online.lobbyNote = `Copied invite link (${online.roomId}) to clipboard!`;
+            renderOnlineSetupPane();
+            setTimeout(() => { copyInviteBtn.textContent = 'Copy Link'; }, 1600);
+          } catch {}
+        });
+      }
+
+      const shareInviteBtn = document.getElementById('btn-share-invite');
+      if (shareInviteBtn) {
+        shareInviteBtn.addEventListener('click', async () => {
+          if (!online.roomId) return;
+          const inviteUrl = getInviteUrl(online.roomId);
+          if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+            try {
+              await navigator.share({
+                title: 'Join my Classic Ludo Game!',
+                text: `Tap to join my online Ludo session (ID: ${online.roomId}):`,
+                url: inviteUrl
+              });
+              return;
+            } catch (err) {
+              if (err && err.name === 'AbortError') return;
+            }
+          }
+          try {
+            await copyTextToClipboard(inviteUrl);
+            shareInviteBtn.textContent = 'Link Copied!';
+            online.lobbyNote = `Copied invite link (${online.roomId}) — paste it to your friends!`;
+            renderOnlineSetupPane();
+            setTimeout(() => { shareInviteBtn.textContent = 'Share Invite Link'; }, 1600);
+          } catch {}
+        });
+      }
+
+      const leaveOnlineBtn = document.getElementById('btn-leave-online');
+      if (leaveOnlineBtn) {
+        leaveOnlineBtn.addEventListener('click', () => {
+          leaveOnlineRoom({ silent: false });
+        });
+      }
+
+      const lobbyBackBtn = document.getElementById('btn-lobby-back-to-board');
+      if (lobbyBackBtn) {
+        lobbyBackBtn.addEventListener('click', () => {
+          if (setupModal.open) setupModal.close();
+          notifySetupClosed();
+        });
+      }
+
+      const hostResetLobbyBtn = document.getElementById('btn-host-reset-lobby');
+      if (hostResetLobbyBtn) {
+        hostResetLobbyBtn.addEventListener('click', () => {
+          sendOnlineMessage({ type: 'RETURN_TO_LOBBY' });
+        });
+      }
+
+      const startOnlineMatchBtn = document.getElementById('btn-start-online-match');
+      if (startOnlineMatchBtn) {
+        startOnlineMatchBtn.addEventListener('click', () => {
+          online.lobbyNote = '';
+          sendOnlineMessage({ type: 'START_MATCH' });
+        });
+      }
+
+      if (resumeFromOnlineBtn) {
+        resumeFromOnlineBtn.addEventListener('click', () => {
+          if (setupModal.open) setupModal.close();
+          notifySetupClosed();
+        });
+      }
 
       presetAllHumanBtn.addEventListener('click', () => {
         MODE_ROSTERS[setupDraft.playerCount].forEach((pid) => {
@@ -4293,11 +6002,26 @@
       });
 
       document.getElementById('btn-play-again').addEventListener('click', () => {
+        if (online.active) {
+          if (isOnlineHost()) {
+            sendOnlineMessage({ type: 'RETURN_TO_LOBBY' });
+          } else {
+            if (victoryModal.open) victoryModal.close();
+            openSetupModal(state.started, 'online');
+          }
+          return;
+        }
         if (victoryModal.open) victoryModal.close();
         openSetupModal(false);
       });
 
       document.getElementById('btn-continue-podium').addEventListener('click', () => {
+        if (online.active) {
+          if (isOnlineHost()) {
+            sendOnlineMessage({ type: 'CONTINUE_PODIUM' });
+          }
+          return;
+        }
         if (victoryModal.open) victoryModal.close();
         advanceToNextTurn();
       });
@@ -4314,11 +6038,46 @@
         });
       });
 
+      // Instant reconnect when returning from mobile share sheet / iMessage / WhatsApp
+      if (typeof document !== 'undefined' && document.addEventListener) {
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible' && online.active && online.roomId && !online.connected && !online.connecting) {
+            if (online.reconnectTimer) {
+              clearTimeout(online.reconnectTimer);
+              online.reconnectTimer = null;
+            }
+            openOnlineWebSocket(online.roomId);
+          }
+        });
+      }
+      if (typeof window !== 'undefined' && window.addEventListener) {
+        window.addEventListener('online', () => {
+          if (online.active && online.roomId && !online.connected && !online.connecting) {
+            if (online.reconnectTimer) {
+              clearTimeout(online.reconnectTimer);
+              online.reconnectTimer = null;
+            }
+            openOnlineWebSocket(online.roomId);
+          }
+        });
+      }
+
       /* =====================================================================
-       * 9. BOOTSTRAP
+       * 9. BOOTSTRAP & INVITE LINK AUTO-JOIN (?room=XXXXXX)
        * ===================================================================== */
       buildBoardSVG();
       openSetupModal(false);
+
+      try {
+        const initialParams = window.location && window.location.search
+          ? new URLSearchParams(window.location.search)
+          : null;
+        const inviteRoom = initialParams ? normalizeRoomCode(initialParams.get('room')) : '';
+        if (inviteRoom && inviteRoom.length >= 4) {
+          if (onlineJoinCodeInput) onlineJoinCodeInput.value = inviteRoom;
+          connectToOnlineRoom(inviteRoom);
+        }
+      } catch {}
 
       if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
         window.addEventListener('load', () => {
