@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ludo-pro-v2.2-universal';
+const CACHE_NAME = 'ludo-pro-v2.3-ergonomic';
 
 const ASSETS = [
   './',

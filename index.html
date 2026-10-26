@@ -93,7 +93,7 @@
       transition: background 0.45s ease;
     }
 
-    /* Main Adaptive Shell (3-Column Landscape Command Layout / 2x4 Portrait Tabletop Stack) */
+    /* Main Adaptive Shell (3x2 Landscape Command Grid / 2x4 Portrait Tabletop Stack) */
     .app-shell {
       width: 100%;
       max-width: 1720px;
@@ -107,18 +107,14 @@
         max(16px, var(--safe-l));
       display: grid;
       grid-template-columns: minmax(var(--flank-min), 1fr) auto minmax(var(--flank-min), 1fr);
+      grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
       align-items: stretch;
-      gap: 16px;
+      gap: 14px 16px;
     }
 
-    /* Left & Right Command Stations */
+    /* Flank wrappers flatten into .app-shell so any color can anchor to any corner via data-corner */
     .flank {
-      display: grid;
-      grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 14px;
-      min-width: 0;
-      min-height: 0;
-      height: 100%;
+      display: contents;
     }
 
     .hud-card {
@@ -167,8 +163,27 @@
       transition: opacity 0.3s ease;
     }
 
-    .hud-card[data-player="red"] {
+    .hud-card[data-corner="tl"] {
+      grid-column: 1;
       grid-row: 1;
+    }
+
+    .hud-card[data-corner="bl"] {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .hud-card[data-corner="tr"] {
+      grid-column: 3;
+      grid-row: 1;
+    }
+
+    .hud-card[data-corner="br"] {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    .hud-card[data-player="red"] {
       --p-color: var(--red);
       --p-dark: var(--red-dark);
       --p-soft: var(--red-soft);
@@ -176,7 +191,6 @@
     }
 
     .hud-card[data-player="blue"] {
-      grid-row: 2;
       --p-color: var(--blue);
       --p-dark: var(--blue-dark);
       --p-soft: var(--blue-soft);
@@ -184,7 +198,6 @@
     }
 
     .hud-card[data-player="green"] {
-      grid-row: 1;
       --p-color: var(--green);
       --p-dark: var(--green-dark);
       --p-soft: var(--green-soft);
@@ -192,7 +205,6 @@
     }
 
     .hud-card[data-player="yellow"] {
-      grid-row: 2;
       --p-color: var(--yellow);
       --p-dark: var(--yellow-dark);
       --p-soft: var(--yellow-soft);
@@ -702,6 +714,8 @@
 
     /* Center Arena & Massive Square Board */
     .center-arena {
+      grid-column: 2;
+      grid-row: 1 / 3;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1429,9 +1443,6 @@
           max(8px, var(--safe-b))
           max(12px, var(--safe-l));
       }
-      .flank {
-        gap: 10px;
-      }
       .center-arena {
         gap: 8px;
       }
@@ -1514,15 +1525,12 @@
         }
       }
       .app-shell {
-        gap: 8px;
+        gap: 6px 8px;
         padding:
           max(6px, var(--safe-t))
           max(10px, var(--safe-r))
           max(6px, var(--safe-b))
           max(10px, var(--safe-l));
-      }
-      .flank {
-        gap: 6px;
       }
       .center-arena {
         gap: 5px;
@@ -1748,11 +1756,11 @@
         height: 34px;
         padding: 0 2px;
       }
-      #hud-red {
+      .hud-card[data-corner="tl"] {
         grid-column: 1;
         grid-row: 2;
       }
-      #hud-green {
+      .hud-card[data-corner="tr"] {
         grid-column: 2;
         grid-row: 2;
       }
@@ -1763,21 +1771,21 @@
         height: 100%;
         container-type: size;
       }
-      #hud-blue {
+      .hud-card[data-corner="bl"] {
         grid-column: 1;
         grid-row: 4;
       }
-      #hud-yellow {
+      .hud-card[data-corner="br"] {
         grid-column: 2;
         grid-row: 4;
       }
       /* Span full row when only one station is active in the top or bottom row */
-      .app-shell:has(#hud-green.inactive-player) #hud-red,
-      .app-shell:has(#hud-red.inactive-player) #hud-green {
+      .app-shell:has(.hud-card[data-corner="tr"].inactive-player) .hud-card[data-corner="tl"],
+      .app-shell:has(.hud-card[data-corner="tl"].inactive-player) .hud-card[data-corner="tr"] {
         grid-column: 1 / -1;
       }
-      .app-shell:has(#hud-blue.inactive-player) #hud-yellow,
-      .app-shell:has(#hud-yellow.inactive-player) #hud-blue {
+      .app-shell:has(.hud-card[data-corner="bl"].inactive-player) .hud-card[data-corner="br"],
+      .app-shell:has(.hud-card[data-corner="br"].inactive-player) .hud-card[data-corner="bl"] {
         grid-column: 1 / -1;
       }
       @supports (width: 100cqw) {
@@ -1893,13 +1901,27 @@
         width: 4px;
         height: 4px;
       }
-      /* Size-aware horizontal controls when a Portrait station card has >= 300px width */
+      /* Size-aware horizontal controls when a Portrait station card has >= 300px width.
+       * Right-side & solo-human bottom-right ('tr', 'br') cards place the interactive Dice
+       * button on the right-hand thumb side and the Bank Tray on the left. */
       @container (min-width: 300px) {
         .hud-controls {
           display: grid;
           grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
           align-items: stretch;
           gap: 8px;
+        }
+        .hud-card[data-corner="tr"] .hud-controls,
+        .hud-card[data-corner="br"] .hud-controls {
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+        }
+        .hud-card[data-corner="tr"] .bank-tray,
+        .hud-card[data-corner="br"] .bank-tray {
+          order: 1;
+        }
+        .hud-card[data-corner="tr"] .dice-btn,
+        .hud-card[data-corner="br"] .dice-btn {
+          order: 2;
         }
         .bank-tray {
           justify-content: center;
@@ -2016,9 +2038,9 @@
 </head>
 <body>
   <div class="app-shell">
-    <!-- LEFT COMMAND STATION: RED (Top) & BLUE (Bottom) -->
+    <!-- LEFT COMMAND STATION -->
     <aside class="flank flank-left" aria-label="Left Command Station">
-      <section class="hud-card" id="hud-red" data-player="red">
+      <section class="hud-card" id="hud-red" data-player="red" data-corner="tl">
         <div class="hud-header">
           <div class="player-id-group">
             <span class="player-orb"></span>
@@ -2070,7 +2092,7 @@
         </div>
       </section>
 
-      <section class="hud-card" id="hud-blue" data-player="blue">
+      <section class="hud-card" id="hud-blue" data-player="blue" data-corner="bl">
         <div class="hud-header">
           <div class="player-id-group">
             <span class="player-orb"></span>
@@ -2165,9 +2187,9 @@
       </div>
     </main>
 
-    <!-- RIGHT COMMAND STATION: GREEN (Top) & YELLOW (Bottom) -->
+    <!-- RIGHT COMMAND STATION -->
     <aside class="flank flank-right" aria-label="Right Command Station">
-      <section class="hud-card" id="hud-green" data-player="green">
+      <section class="hud-card" id="hud-green" data-player="green" data-corner="tr">
         <div class="hud-header">
           <div class="player-id-group">
             <span class="player-orb"></span>
@@ -2219,7 +2241,7 @@
         </div>
       </section>
 
-      <section class="hud-card" id="hud-yellow" data-player="yellow">
+      <section class="hud-card" id="hud-yellow" data-player="yellow" data-corner="br">
         <div class="hud-header">
           <div class="player-id-group">
             <span class="player-orb"></span>
@@ -2273,13 +2295,13 @@
     </aside>
   </div>
 
-  <!-- IMMERSIVE SETUP MODAL (v2.2: Universal Responsive & Computer Players) -->
+  <!-- IMMERSIVE SETUP MODAL (v2.3: Ergonomic Solo-Human Seating, Universal Responsive & AI) -->
   <dialog id="setup-modal" aria-labelledby="setup-title">
     <div class="modal-card">
       <div class="brand-emblem" aria-hidden="true">
         <span></span><span></span><span></span><span></span>
       </div>
-      <h1 class="modal-title" id="setup-title">CLASSIC LUDO <span style="font-size:0.85rem;font-weight:700;vertical-align:middle;padding:3px 9px;border-radius:999px;background:rgba(59,130,246,0.22);border:1px solid rgba(96,165,250,0.45);-webkit-text-fill-color:#bfdbfe;letter-spacing:0.05em;">v2.2</span></h1>
+      <h1 class="modal-title" id="setup-title">CLASSIC LUDO <span style="font-size:0.85rem;font-weight:700;vertical-align:middle;padding:3px 9px;border-radius:999px;background:rgba(59,130,246,0.22);border:1px solid rgba(96,165,250,0.45);-webkit-text-fill-color:#bfdbfe;letter-spacing:0.05em;">v2.3</span></h1>
       <p class="modal-subtitle">Choose 2, 3, or 4 players and configure each station as Human or Computer AI.</p>
 
       <div class="setup-toolbar">
@@ -2517,8 +2539,59 @@
       })();
 
       /* =====================================================================
-       * 3. SVG 15x15 BOARD RENDERER
+       * 3. SVG 15x15 BOARD RENDERER & SYMMETRIC CORNER SLOTS
        * ===================================================================== */
+      // Four 90-degree rotationally symmetric board/HUD corner slots (clockwise: tl -> tr -> br -> bl).
+      // Slot 2 ('br' = Bottom-Right) sits at Bottom-Right in Portrait AND Right-Bottom in Landscape,
+      // anchoring a solo Human player's dice in the right-hand thumb zone across both orientations
+      // without ever rotating or shuffling the board mid-game on device rotation.
+      const CORNER_SLOTS = [
+        {
+          key: 'tl',
+          label: 'Top-Left Station',
+          baseOrigin: [0, 0],
+          startIndex: 1,
+          entryArrowCell: [7, 0],
+          entryDir: [0, 1],
+          homeStretch: [[7, 1], [7, 2], [7, 3], [7, 4], [7, 5]],
+          goalAnchor: [7.5, 6.42],
+          centerPolygon: '600,600 750,750 600,900'
+        },
+        {
+          key: 'tr',
+          label: 'Top-Right Station',
+          baseOrigin: [0, 9],
+          startIndex: 14,
+          entryArrowCell: [0, 7],
+          entryDir: [1, 0],
+          homeStretch: [[1, 7], [2, 7], [3, 7], [4, 7], [5, 7]],
+          goalAnchor: [6.42, 7.5],
+          centerPolygon: '600,600 900,600 750,750'
+        },
+        {
+          key: 'br',
+          label: 'Bottom-Right Station',
+          baseOrigin: [9, 9],
+          startIndex: 27,
+          entryArrowCell: [7, 14],
+          entryDir: [0, -1],
+          homeStretch: [[7, 13], [7, 12], [7, 11], [7, 10], [7, 9]],
+          goalAnchor: [7.5, 8.58],
+          centerPolygon: '900,600 900,900 750,750'
+        },
+        {
+          key: 'bl',
+          label: 'Bottom-Left Station',
+          baseOrigin: [9, 0],
+          startIndex: 40,
+          entryArrowCell: [14, 7],
+          entryDir: [-1, 0],
+          homeStretch: [[13, 7], [12, 7], [11, 7], [10, 7], [9, 7]],
+          goalAnchor: [8.58, 7.5],
+          centerPolygon: '600,900 900,900 750,750'
+        }
+      ];
+
       function buildBoardSVG() {
         const svg = document.getElementById('board-svg');
         const C = 100; // 100 SVG units per cell => 1500x1500 viewBox
@@ -2558,7 +2631,10 @@
         `);
 
         // 1. Render 52 Outer Common Track Squares
-        const startOwnerByIdx = { 1: 'red', 14: 'green', 27: 'yellow', 40: 'blue' };
+        const startOwnerByIdx = {};
+        ALL_COLORS.forEach((pid) => {
+          startOwnerByIdx[PLAYER_DEFS[pid].startIndex] = pid;
+        });
         OUTER_TRACK.forEach(([r, c], idx) => {
           const x = c * C;
           const y = r * C;
@@ -2636,12 +2712,14 @@
         });
 
         // 4. Render Center 3x3 Home Goal Triangles (rows 6..8, cols 6..8 => 600..900)
+        const centerPolygons = ALL_COLORS.map((pid) => {
+          const poly = PLAYER_DEFS[pid].centerPolygon || CORNER_SLOTS[PLAYER_DEFS[pid].order].centerPolygon;
+          return `<polygon points="${poly}" fill="url(#grad-${pid})" stroke="#0f172a" stroke-width="3.5"/>`;
+        }).join('\n            ');
+
         parts.push(`
           <g id="svg-center-home">
-            <polygon points="600,600 750,750 600,900" fill="url(#grad-red)" stroke="#0f172a" stroke-width="3.5"/>
-            <polygon points="600,600 900,600 750,750" fill="url(#grad-green)" stroke="#0f172a" stroke-width="3.5"/>
-            <polygon points="900,600 900,900 750,750" fill="url(#grad-yellow)" stroke="#0f172a" stroke-width="3.5"/>
-            <polygon points="600,900 900,900 750,750" fill="url(#grad-blue)" stroke="#0f172a" stroke-width="3.5"/>
+            ${centerPolygons}
             <rect x="600" y="600" width="300" height="300" fill="none" stroke="#0f172a" stroke-width="5"/>
             <circle cx="750" cy="750" r="34" fill="#0f172a" stroke="#ffffff" stroke-width="3"/>
             <polygon points="${starPoints(750, 750, 21, 9)}" fill="#fbbf24"/>
@@ -2655,15 +2733,8 @@
       }
 
       /* =====================================================================
-       * 4. GAME STATE & UTILITY HELPERS
+       * 4. GAME STATE, ERGONOMIC PERSPECTIVE & UTILITY HELPERS
        * ===================================================================== */
-      const STATION_HINTS = {
-        red: 'Top-Left Station',
-        green: 'Top-Right Station',
-        yellow: 'Bottom-Right Station',
-        blue: 'Bottom-Left Station'
-      };
-
       const setupDraft = {
         playerCount: 2,
         seats: {
@@ -2677,6 +2748,7 @@
       const state = {
         started: false,
         matchGen: 0,
+        boardQuarterTurns: 0,
         activePlayers: ['red', 'yellow'],
         playerConfigs: {
           red:    { type: 'human', difficulty: 'medium' },
@@ -2698,6 +2770,40 @@
 
       let rollSeqId = 1;
       let toastTimer = null;
+
+      // When a match has exactly 1 Human player (solo Human vs AI), rotate the 4-fold
+      // symmetric board & HUD stations once at match start so the Human's chosen color
+      // anchors to Slot 2 ('br' = Bottom-Right in Portrait, Right-Bottom in Landscape).
+      // Pass & Play matches (2+ Humans) keep standard q = 0 tabletop corners.
+      function computeAutoQuarterTurns(roster, seatConfigs) {
+        const humans = roster.filter((pid) => seatConfigs[pid] && seatConfigs[pid].type === 'human');
+        if (humans.length === 1) {
+          return (2 - PLAYER_DEFS[humans[0]].order + 4) % 4;
+        }
+        return 0;
+      }
+
+      function applyBoardPerspective(quarterTurns = 0) {
+        const q = ((quarterTurns % 4) + 4) % 4;
+        state.boardQuarterTurns = q;
+        ALL_COLORS.forEach((pid) => {
+          const p = PLAYER_DEFS[pid];
+          const slot = CORNER_SLOTS[(p.order + q) % 4];
+          p.cornerKey = slot.key;
+          p.baseOrigin = [slot.baseOrigin[0], slot.baseOrigin[1]];
+          p.startIndex = slot.startIndex;
+          p.entryArrowCell = [slot.entryArrowCell[0], slot.entryArrowCell[1]];
+          p.entryDir = [slot.entryDir[0], slot.entryDir[1]];
+          p.homeStretch = slot.homeStretch.map(([r, c]) => [r, c]);
+          p.goalAnchor = [slot.goalAnchor[0], slot.goalAnchor[1]];
+          p.centerPolygon = slot.centerPolygon;
+          START_INDICES[pid] = slot.startIndex;
+
+          const hudCard = document.getElementById(`hud-${pid}`);
+          if (hudCard) hudCard.dataset.corner = slot.key;
+        });
+        buildBoardSVG();
+      }
 
       function sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
@@ -3518,6 +3624,10 @@
           });
         }
 
+        // Orient board & HUD corners once at match start (solo Human -> Bottom-Right thumb zone).
+        // Locked for the entire match so Portrait <-> Landscape rotation never shifts board colors.
+        applyBoardPerspective(computeAutoQuarterTurns(state.activePlayers, state.playerConfigs));
+
         state.finishedRankings = [];
         state.turnIndex = 0;
         state.phase = 'ROLLING';
@@ -3967,9 +4077,10 @@
           tab.classList.toggle('selected', Number(tab.dataset.count) === setupDraft.playerCount);
         });
 
-        // 2. Sync quick preset tabs (Human + AI vs All Human)
+        // 2. Sync quick preset tabs (Human + AI vs All Human) & preview corner orientation
         const aiCount = roster.filter((pid) => setupDraft.seats[pid].type === 'ai').length;
         const humanCount = roster.length - aiCount;
+        const previewQuarterTurns = computeAutoQuarterTurns(roster, setupDraft.seats);
         presetAllHumanBtn.classList.toggle('selected', aiCount === 0);
         presetVsAiBtn.classList.toggle('selected', aiCount > 0);
 
@@ -3978,6 +4089,10 @@
         roster.forEach((pid) => {
           const pDef = PLAYER_DEFS[pid];
           const seat = setupDraft.seats[pid];
+          const previewSlot = CORNER_SLOTS[(pDef.order + previewQuarterTurns) % 4];
+          const cornerHint = humanCount === 1 && seat.type === 'human'
+            ? 'Bottom-Right · Thumb Zone'
+            : previewSlot.label;
 
           const row = document.createElement('div');
           row.className = 'seat-row';
@@ -3990,7 +4105,7 @@
             <span class="seat-dot" style="background:${pDef.hex};box-shadow:0 0 10px ${pDef.hex}"></span>
             <span class="seat-label-group">
               <span class="seat-color-name">${pDef.name}</span>
-              <span class="seat-corner-hint">${STATION_HINTS[pid]}</span>
+              <span class="seat-corner-hint">${cornerHint}</span>
             </span>
           `;
 
@@ -4070,6 +4185,9 @@
           setupFootnote.textContent = customNote;
         } else if (aiCount === 0) {
           setupFootnote.textContent = `Pass & Play · All ${roster.length} stations controlled by Human players.`;
+        } else if (humanCount === 1) {
+          const soloHumanPid = roster.find((pid) => setupDraft.seats[pid].type === 'human');
+          setupFootnote.textContent = `Solo Human + ${aiCount} AI · ${PLAYER_DEFS[soloHumanPid].name} auto-anchors to Bottom-Right thumb zone.`;
         } else {
           setupFootnote.textContent = `${humanCount} Human + ${aiCount} Computer AI · At least 1 station is always Human.`;
         }
